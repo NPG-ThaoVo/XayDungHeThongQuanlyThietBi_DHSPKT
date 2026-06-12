@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+﻿import { NextRequest } from "next/server";
 
 import { recordAuditLog } from "@/lib/audit";
 import { auth } from "@/lib/auth";
@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
         take: limit,
         include: {
           items: {
-            select: { daXacNhãn: true },
+            select: { daXacNhan: true },
           },
         },
         orderBy: { createdAt: "desc" },
@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : "Không thể lay danh sach kiem ke" },
+      { error: error instanceof Error ? error.message : "Không thể lấy danh sách kiểm kê" },
       { status: 400 },
     );
   }
@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
           ).map((item) => item.id);
 
     if (thietBiIds.length === 0) {
-      return Response.json({ error: "Không có thiết bị de tao dot kiem ke" }, { status: 400 });
+      return Response.json({ error: "Không có thiết bị để tạo đợt kiểm kê" }, { status: 400 });
     }
 
     const result = await prisma.$transaction(async (tx) => {
@@ -110,7 +110,7 @@ export async function POST(request: NextRequest) {
         data: thietBiIds.map((thietBiId) => ({
           dotKiemKeId: dot.id,
           thietBiId,
-          daXacNhãn: false,
+          daXacNhan: false,
         })),
         skipDuplicates: true,
       });
@@ -129,7 +129,7 @@ export async function POST(request: NextRequest) {
     return Response.json(result, { status: 201 });
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : "Không thể tao dot kiem ke" },
+      { error: error instanceof Error ? error.message : "Không thể tạo đợt kiểm kê" },
       { status: 400 },
     );
   }

@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+﻿import { NextRequest } from "next/server";
 
 import { recordAuditLog } from "@/lib/audit";
 import { auth } from "@/lib/auth";
@@ -33,7 +33,7 @@ export async function PATCH(
     });
 
     if (!existing) {
-      return Response.json({ error: "Không tìm thấy item kiem ke" }, { status: 404 });
+      return Response.json({ error: "Không tìm thấy item kiểm kê" }, { status: 404 });
     }
 
     const updated = await prisma.kiemKeItem.update({
@@ -43,8 +43,8 @@ export async function PATCH(
           ? { trangThaiThucTe: parsed.trangThaiThucTe ? parsed.trangThaiThucTe : null }
           : {}),
         ...(parsed.ghiChu !== undefined ? { ghiChu: parsed.ghiChu ? parsed.ghiChu : null } : {}),
-        ...(parsed.daXacNhãn !== undefined
-          ? { daXacNhãn: parsed.daXacNhãn, ngayXacNhãn: parsed.daXacNhãn ? new Date() : null }
+        ...(parsed.daXacNhan !== undefined
+          ? { daXacNhan: parsed.daXacNhan, ngayXacNhan: parsed.daXacNhan ? new Date() : null }
           : {}),
       },
     });
@@ -54,13 +54,13 @@ export async function PATCH(
       action: "UPDATE",
       entity: "KiemKeItem",
       entityId: updated.id,
-      detail: JSON.stringify({ dotKiemKeId: existing.dotKiemKeId, daXacNhãn: updated.daXacNhãn }),
+      detail: JSON.stringify({ dotKiemKeId: existing.dotKiemKeId, daXacNhan: updated.daXacNhan }),
     });
 
     return Response.json(updated);
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : "Không thể cap nhat item kiem ke" },
+      { error: error instanceof Error ? error.message : "Không thể cập nhật item kiểm kê" },
       { status: 400 },
     );
   }

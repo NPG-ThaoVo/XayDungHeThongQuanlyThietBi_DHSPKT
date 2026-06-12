@@ -12,7 +12,7 @@ type RoundSummary = {
   tenDot: string;
   trangThai: string;
   tong: number;
-  daXacNhan: number;
+  daXacNhãn: number;
   percent: number;
 };
 
@@ -27,8 +27,8 @@ type RoundItem = {
   };
   trangThaiThucTe: string | null;
   ghiChu: string | null;
-  daXacNhan: boolean;
-  ngayXacNhan: string | null;
+  daXacNhãn: boolean;
+  ngayXacNhãn: string | null;
 };
 
 type CurrentRound = {
@@ -64,7 +64,7 @@ export function InventoryManagementPanel({
   const [draftNote, setDraftNote] = useState<Record<string, string>>({});
 
   const unconfirmedCount = useMemo(
-    () => (currentRound ? currentRound.items.filter((item) => !item.daXacNhan).length : 0),
+    () => (currentRound ? currentRound.items.filter((item) => !item.daXacNhãn).length : 0),
     [currentRound],
   );
 
@@ -101,13 +101,13 @@ export function InventoryManagementPanel({
 
       const payload = (await response.json()) as { error?: string };
       if (!response.ok) {
-        throw new Error(payload.error ?? "Khong the tao dot kiem ke");
+        throw new Error(payload.error ?? "Không thể tao dot kiem ke");
       }
 
       setCreateForm(emptyCreateForm);
       refreshPage("Da tao dot kiem ke moi.");
     } catch (submitError) {
-      setError(submitError instanceof Error ? submitError.message : "Loi khong xac dinh");
+      setError(submitError instanceof Error ? submitError.message : "Lỗi không xác định");
     } finally {
       setIsSubmitting(false);
     }
@@ -123,7 +123,7 @@ export function InventoryManagementPanel({
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          daXacNhan: true,
+          daXacNhãn: true,
           trangThaiThucTe: draftStatus[itemId] || undefined,
           ghiChu: draftNote[itemId] || undefined,
         }),
@@ -131,12 +131,12 @@ export function InventoryManagementPanel({
 
       const payload = (await response.json()) as { error?: string };
       if (!response.ok) {
-        throw new Error(payload.error ?? "Khong the xac nhan kiem ke");
+        throw new Error(payload.error ?? "Không thể xac nhan kiem ke");
       }
 
-      refreshPage("Da xac nhan kiem ke.");
+      refreshPage("Đã xác nhận kiem ke.");
     } catch (actionError) {
-      setError(actionError instanceof Error ? actionError.message : "Loi khong xac dinh");
+      setError(actionError instanceof Error ? actionError.message : "Lỗi không xác định");
     } finally {
       setBusyItemId(null);
     }
@@ -163,12 +163,12 @@ export function InventoryManagementPanel({
 
       const payload = (await response.json()) as { error?: string };
       if (!response.ok) {
-        throw new Error(payload.error ?? "Khong the hoan thanh dot kiem ke");
+        throw new Error(payload.error ?? "Không thể hoan thanh dot kiem ke");
       }
 
-      refreshPage("Da hoan thanh dot kiem ke.");
+      refreshPage("Đã hoàn thành đợt kiểm kê.");
     } catch (actionError) {
-      setError(actionError instanceof Error ? actionError.message : "Loi khong xac dinh");
+      setError(actionError instanceof Error ? actionError.message : "Lỗi không xác định");
     } finally {
       setBusyRoundId(null);
     }
@@ -178,7 +178,7 @@ export function InventoryManagementPanel({
     <div className="grid gap-6">
       <div className="space-y-4">
         <div className="rounded-2xl border border-slate-200 bg-white p-6">
-          <h3 className="text-lg font-semibold text-slate-950">Dot kiem ke</h3>
+          <h3 className="text-lg font-semibold text-slate-950">Đợt kiểm kê</h3>
           <div className="mt-6 space-y-4">
             {rounds.length > 0 ? (
               rounds.map((item) => (
@@ -192,12 +192,12 @@ export function InventoryManagementPanel({
                     />
                   </div>
                   <p className="mt-2 text-sm text-slate-600">
-                    {item.daXacNhan}/{item.tong} thiet bi da xac nhan
+                    {item.daXacNhãn}/{item.tong} thiet bi da xac nhan
                   </p>
                 </div>
               ))
             ) : (
-              <p className="text-sm text-slate-500">Chua co dot kiem ke nao.</p>
+              <p className="text-sm text-slate-500">Chưa có dot kiem ke nao.</p>
             )}
           </div>
         </div>
@@ -208,7 +208,7 @@ export function InventoryManagementPanel({
               <div>
                 <h3 className="text-lg font-semibold text-slate-950">{currentRound.tenDot}</h3>
                 <p className="mt-1 text-sm text-slate-500">
-                  Bat dau: {formatDate(new Date(currentRound.ngayBatDau))} • Con {unconfirmedCount} chua xac nhan
+                  Bắt đầu: {formatDate(new Date(currentRound.ngayBatDau))} • Con {unconfirmedCount} chua xac nhan
                 </p>
               </div>
               <Button
@@ -217,7 +217,7 @@ export function InventoryManagementPanel({
                 onClick={handleCompleteRound}
                 disabled={busyRoundId === currentRound.id || unconfirmedCount > 0}
               >
-                Hoan thanh dot
+                Hoàn thành dot
               </Button>
             </div>
 
@@ -225,10 +225,10 @@ export function InventoryManagementPanel({
               <table className="w-full text-sm">
                 <thead className="bg-slate-50">
                   <tr>
-                    <th className="px-4 py-3 text-left font-medium text-slate-500">Thiet bi</th>
-                    <th className="px-4 py-3 text-left font-medium text-slate-500">Thuc te</th>
-                    <th className="px-4 py-3 text-left font-medium text-slate-500">Ghi chu</th>
-                    <th className="px-4 py-3 text-left font-medium text-slate-500">Xac nhan</th>
+                    <th className="px-4 py-3 text-left font-medium text-slate-500">Thiết bị</th>
+                    <th className="px-4 py-3 text-left font-medium text-slate-500">Thực tế</th>
+                    <th className="px-4 py-3 text-left font-medium text-slate-500">Ghi chú</th>
+                    <th className="px-4 py-3 text-left font-medium text-slate-500">Xác nhận</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -243,7 +243,7 @@ export function InventoryManagementPanel({
                           <p className="font-medium text-slate-900">{item.thietBi.tenThietBi}</p>
                           <p className="mt-1 text-xs text-slate-500">{item.thietBi.maThietBi}</p>
                           <p className="mt-1 text-xs text-slate-500">
-                            Vi tri: {item.thietBi.phong?.tenPhong ?? "--"} • Trang thai he thong: {item.thietBi.trangThai}
+                            Vị trí: {item.thietBi.phong?.tenPhong ?? "--"} • Trạng thái hệ thống: {item.thietBi.trangThai}
                           </p>
                         </td>
                         <td className="px-4 py-4">
@@ -253,17 +253,17 @@ export function InventoryManagementPanel({
                             onChange={(event) =>
                               setDraftStatus((current) => ({ ...current, [item.id]: event.target.value }))
                             }
-                            disabled={item.daXacNhan || isBusy}
+                            disabled={item.daXacNhãn || isBusy}
                           >
-                            <option value="">Chon</option>
+                            <option value="">Chọn</option>
                             <option value="TOT">TOT</option>
                             <option value="HONG">HONG</option>
                             <option value="BAO_TRI">BAO_TRI</option>
                             <option value="THANH_LY">THANH_LY</option>
                           </select>
-                          {item.daXacNhan ? (
+                          {item.daXacNhãn ? (
                             <p className="mt-2 text-xs text-slate-500">
-                              Da xac nhan {item.ngayXacNhan ? formatDate(new Date(item.ngayXacNhan)) : ""}
+                              Đã xác nhận {item.ngayXacNhãn ? formatDate(new Date(item.ngayXacNhãn)) : ""}
                             </p>
                           ) : null}
                         </td>
@@ -274,8 +274,8 @@ export function InventoryManagementPanel({
                             onChange={(event) =>
                               setDraftNote((current) => ({ ...current, [item.id]: event.target.value }))
                             }
-                            disabled={item.daXacNhan || isBusy}
-                            placeholder="Ghi chu..."
+                            disabled={item.daXacNhãn || isBusy}
+                            placeholder="Ghi chú..."
                           />
                         </td>
                         <td className="px-4 py-4">
@@ -283,9 +283,9 @@ export function InventoryManagementPanel({
                             variant="secondary"
                             size="sm"
                             onClick={() => handleConfirmItem(item.id)}
-                            disabled={item.daXacNhan || isBusy}
+                            disabled={item.daXacNhãn || isBusy}
                           >
-                            Xac nhan
+                            Xác nhận
                           </Button>
                         </td>
                       </tr>
@@ -299,21 +299,21 @@ export function InventoryManagementPanel({
       </div>
 
       <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h3 className="text-lg font-semibold text-slate-950">Khoi tao dot kiem ke</h3>
+        <h3 className="text-lg font-semibold text-slate-950">Khởi tạo đợt kiểm kê</h3>
         <p className="mt-2 text-sm text-slate-500">Tu dong tao item cho toan bo thiet bi chua thanh ly.</p>
 
         <form className="mt-6 grid gap-4" onSubmit={handleCreateRound}>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-700">Ten dot</label>
+            <label className="text-sm font-medium text-slate-700">Tên đợt</label>
             <Input
               value={createForm.tenDot}
               onChange={(event) => updateCreateField("tenDot", event.target.value)}
-              placeholder="Kiem ke Quy II/2026"
+              placeholder="Kiểm kê Quy II/2026"
               required
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-700">Ngay bat dau</label>
+            <label className="text-sm font-medium text-slate-700">Ngày bắt đầu</label>
             <Input
               type="datetime-local"
               value={createForm.ngayBatDau}
@@ -322,7 +322,7 @@ export function InventoryManagementPanel({
             />
           </div>
           <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Dang tao..." : "Tao dot"}
+            {isSubmitting ? "Đang tạo..." : "Tạo đợt"}
           </Button>
 
           {error ? <p className="text-sm text-rose-600">{error}</p> : null}
@@ -332,4 +332,3 @@ export function InventoryManagementPanel({
     </div>
   );
 }
-

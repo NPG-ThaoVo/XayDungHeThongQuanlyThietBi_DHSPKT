@@ -14,6 +14,6 @@ export const kiemKeRoundUpdateSchema = z.object({
 export const kiemKeItemUpdateSchema = z.object({
   trangThaiThucTe: z.enum(["TOT", "HONG", "BAO_TRI", "THANH_LY"]).optional().or(z.literal("")),
   ghiChu: z.string().optional().or(z.literal("")),
-  daXacNhan: z.coerce.boolean().optional(),
+  daXacNhãn: z.coerce.boolean().optional(),
 });
 

@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import QRCode from "qrcode";
 
+import { recordAuditLog } from "@/lib/audit";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { thietBiSchema } from "@/lib/validations/thiet-bi";
@@ -10,7 +11,7 @@ export async function GET(request: NextRequest) {
   const user = session?.user;
 
   if (!user) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
+    return Response.json({ error: "Không được xác thực" }, { status: 401 });
   }
 
   const { searchParams } = new URL(request.url);
@@ -69,7 +70,7 @@ export async function POST(request: NextRequest) {
   const user = session?.user;
 
   if (!user || !["ADMIN", "THU_KHO"].includes(user.role)) {
-    return Response.json({ error: "Forbidden" }, { status: 403 });
+    return Response.json({ error: "Không có quyền truy cập" }, { status: 403 });
   }
 
   const body = await request.json();
@@ -92,13 +93,11 @@ export async function POST(request: NextRequest) {
     data: { qrCode },
   });
 
-  await prisma.auditLog.create({
-    data: {
-      userId: user.id,
-      action: "CREATE",
-      entity: "ThietBi",
-      entityId: thietBi.id,
-    },
+  await recordAuditLog(prisma, {
+    userId: user.id,
+    action: "CREATE",
+    entity: "ThietBi",
+    entityId: thietBi.id,
   });
 
   return Response.json(thietBi, { status: 201 });

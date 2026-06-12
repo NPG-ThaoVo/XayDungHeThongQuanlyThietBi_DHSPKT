@@ -8,19 +8,30 @@ type ExcelRow = {
   [key: string]: string | number | undefined;
 };
 
+function getRowValue(row: ExcelRow, keys: string[]) {
+  for (const key of keys) {
+    const value = row[key];
+    if (value !== undefined && value !== null && value !== "") {
+      return value;
+    }
+  }
+
+  return undefined;
+}
+
 export async function POST(request: Request) {
   const session = await auth();
   const user = session?.user;
 
   if (!user || !["ADMIN", "THU_KHO"].includes(user.role)) {
-    return Response.json({ error: "Forbidden" }, { status: 403 });
+    return Response.json({ error: "Không có quyền truy cập" }, { status: 403 });
   }
 
   const formData = await request.formData();
   const file = formData.get("file");
 
   if (!(file instanceof File)) {
-    return Response.json({ error: "Missing file" }, { status: 400 });
+    return Response.json({ error: "Thiếu tệp" }, { status: 400 });
   }
 
   const buffer = await file.arrayBuffer();
@@ -33,11 +44,11 @@ export async function POST(request: Request) {
   for (const row of rows) {
     try {
       const parsed = importThietBiRowSchema.parse({
-        maThietBi: row["Ma thiet bi"],
-        tenThietBi: row["Ten thiet bi"],
-        namNhap: row["Nam nhap"],
-        giaTriBanDau: row["Gia tri"],
-        danhMucId: row["Ma danh muc"],
+        maThietBi: getRowValue(row, ["Mã thiết bị", "Ma thiet bi"]),
+        tenThietBi: getRowValue(row, ["Tên thiết bị", "Ten thiet bi"]),
+        namNhap: getRowValue(row, ["Năm nhập", "Nam nhap"]),
+        giaTriBanDau: getRowValue(row, ["Giá trị", "Gia tri"]),
+        danhMucId: getRowValue(row, ["Mã danh mục", "Ma danh muc"]),
       });
 
       await prisma.thietBi.create({
@@ -50,7 +61,7 @@ export async function POST(request: Request) {
       results.success += 1;
     } catch (error) {
       results.failed += 1;
-      results.errors.push(`Dong ${String(row["Ma thiet bi"] ?? "--")}: ${String(error)}`);
+      results.errors.push(`Dòng ${String(getRowValue(row, ["Mã thiết bị", "Ma thiet bi"]) ?? "--")}: ${String(error)}`);
     }
   }
 

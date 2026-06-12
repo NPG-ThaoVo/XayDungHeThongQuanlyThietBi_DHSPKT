@@ -2,31 +2,25 @@
 
 import { revalidatePath } from "next/cache";
 
-import { auth } from "@/lib/auth";
-import { approveBorrowRequest, createBorrowRequest, returnBorrowDevice } from "@/lib/muon-tra";
-
 const BORROW_PAGE_PATH = "/dashboard/muon-tra";
 
-export async function taoPhieuMuon(data: unknown) {
-  const session = await auth();
-  const phieu = await createBorrowRequest(session?.user, data);
-
-  revalidatePath(BORROW_PAGE_PATH);
-  return phieu;
+function createDeprecatedError() {
+  return new Error(
+    "Quy trình muon-tra da duoc de tinh trong schema moi. Hay su dung phieu-nhap, phan-bo va thanh-ly.",
+  );
 }
 
-export async function duyetPhieuMuon(phieuId: string, approved: boolean, ghiChu?: string) {
-  const session = await auth();
-  const phieu = await approveBorrowRequest(session?.user, phieuId, approved, ghiChu);
-
+export async function taoPhiếuMuon() {
   revalidatePath(BORROW_PAGE_PATH);
-  return phieu;
+  throw createDeprecatedError();
 }
 
-export async function traThietBi(phieuId: string, tinhTrangTra: string, ghiChu?: string) {
-  const session = await auth();
-  const phieu = await returnBorrowDevice(session?.user, phieuId, tinhTrangTra, ghiChu);
-
+export async function duyetPhiếuMuon() {
   revalidatePath(BORROW_PAGE_PATH);
-  return phieu;
+  throw createDeprecatedError();
+}
+
+export async function traThietBi() {
+  revalidatePath(BORROW_PAGE_PATH);
+  throw createDeprecatedError();
 }

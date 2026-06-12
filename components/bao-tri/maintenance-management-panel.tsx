@@ -108,13 +108,13 @@ export function MaintenanceManagementPanel({
 
       const payload = (await response.json()) as { error?: string };
       if (!response.ok) {
-        throw new Error(payload.error ?? "Khong the tao phieu bao tri");
+        throw new Error(payload.error ?? "Không thể tao phieu bao tri");
       }
 
       setCreateForm(emptyCreateForm);
-      refreshPage("Da tao phieu bao tri moi.");
+      refreshPage("Đã tạo phiếu bao tri moi.");
     } catch (submitError) {
-      setError(submitError instanceof Error ? submitError.message : "Loi khong xac dinh");
+      setError(submitError instanceof Error ? submitError.message : "Lỗi không xác định");
     } finally {
       setIsSubmitting(false);
     }
@@ -134,12 +134,12 @@ export function MaintenanceManagementPanel({
 
       const payload = (await response.json()) as { error?: string };
       if (!response.ok) {
-        throw new Error(payload.error ?? "Khong the cap nhat ky thuat vien");
+        throw new Error(payload.error ?? "Không thể cap nhat ky thuat vien");
       }
 
-      refreshPage("Da cap nhat ky thuat vien.");
+      refreshPage("Đã cập nhật ky thuat vien.");
     } catch (actionError) {
-      setError(actionError instanceof Error ? actionError.message : "Loi khong xac dinh");
+      setError(actionError instanceof Error ? actionError.message : "Lỗi không xác định");
     } finally {
       setBusyId(null);
     }
@@ -159,12 +159,12 @@ export function MaintenanceManagementPanel({
 
       const payload = (await response.json()) as { error?: string };
       if (!response.ok) {
-        throw new Error(payload.error ?? "Khong the hoan thanh phieu bao tri");
+        throw new Error(payload.error ?? "Không thể hoan thanh phieu bao tri");
       }
 
       refreshPage("Da danh dau hoan thanh.");
     } catch (actionError) {
-      setError(actionError instanceof Error ? actionError.message : "Loi khong xac dinh");
+      setError(actionError instanceof Error ? actionError.message : "Lỗi không xác định");
     } finally {
       setBusyId(null);
     }
@@ -186,9 +186,9 @@ export function MaintenanceManagementPanel({
         <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
           <div className="flex items-center justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div>
-              <h3 className="text-lg font-semibold text-slate-950">Danh sach bao tri</h3>
+              <h3 className="text-lg font-semibold text-slate-950">Danh sách bảo trì</h3>
               <p className="mt-1 text-sm text-slate-500">
-                Dang theo doi {items.length} phieu, {inProgressCount} phieu dang xu ly.
+                Đang theo dõi {items.length} phieu, {inProgressCount} phiếu đang xử lý.
               </p>
             </div>
           </div>
@@ -197,12 +197,12 @@ export function MaintenanceManagementPanel({
             <table className="w-full text-sm">
               <thead className="bg-slate-50">
                 <tr>
-                  <th className="px-4 py-3 text-left font-medium text-slate-500">Thiet bi</th>
-                  <th className="px-4 py-3 text-left font-medium text-slate-500">Loai</th>
-                  <th className="px-4 py-3 text-left font-medium text-slate-500">Ngay</th>
-                  <th className="px-4 py-3 text-left font-medium text-slate-500">Ky thuat vien</th>
-                  <th className="px-4 py-3 text-left font-medium text-slate-500">Chi phi</th>
-                  <th className="px-4 py-3 text-left font-medium text-slate-500">Xu ly</th>
+                  <th className="px-4 py-3 text-left font-medium text-slate-500">Thiết bị</th>
+                  <th className="px-4 py-3 text-left font-medium text-slate-500">Loại</th>
+                  <th className="px-4 py-3 text-left font-medium text-slate-500">Ngày</th>
+                  <th className="px-4 py-3 text-left font-medium text-slate-500">Kỹ thuật viên</th>
+                  <th className="px-4 py-3 text-left font-medium text-slate-500">Chi phí</th>
+                  <th className="px-4 py-3 text-left font-medium text-slate-500">Xử lý</th>
                 </tr>
               </thead>
               <tbody>
@@ -215,22 +215,22 @@ export function MaintenanceManagementPanel({
                       <td className="px-4 py-4">
                         <p className="font-medium text-slate-900">{item.thietBi.tenThietBi}</p>
                         <p className="mt-1 text-xs text-slate-500">{item.thietBi.maThietBi}</p>
-                        <p className="mt-1 text-xs text-slate-500">Trang thai TB: {item.thietBi.trangThai}</p>
+                        <p className="mt-1 text-xs text-slate-500">Trạng thái TB: {item.thietBi.trangThai}</p>
                         <p className="mt-2 text-xs text-slate-600">{item.moTaVanDe}</p>
-                        {item.ketQua ? <p className="mt-1 text-xs text-slate-600">Ket qua: {item.ketQua}</p> : null}
+                        {item.ketQua ? <p className="mt-1 text-xs text-slate-600">Kết quả: {item.ketQua}</p> : null}
                       </td>
                       <td className="px-4 py-4">
                         <p className="font-medium text-slate-900">{item.loaiBaoTri}</p>
                         <p className="mt-1 text-xs text-slate-500">
-                          {item.ngayHoanThanh ? "Hoan thanh" : "Dang xu ly"}
+                          {item.ngayHoanThanh ? "Hoàn thành" : "Đang xử lý"}
                         </p>
                       </td>
                       <td className="px-4 py-4">
-                        <p className="text-slate-900">Bat dau: {formatDate(new Date(item.ngayBatDau))}</p>
+                        <p className="text-slate-900">Bắt đầu: {formatDate(new Date(item.ngayBatDau))}</p>
                         <p className="mt-1 text-xs text-slate-500">
                           {item.ngayHoanThanh
                             ? `Xong: ${formatDate(new Date(item.ngayHoanThanh))}`
-                            : "Chua hoan thanh"}
+                            : "Chưa hoàn thành"}
                         </p>
                       </td>
                       <td className="px-4 py-4">
@@ -242,7 +242,7 @@ export function MaintenanceManagementPanel({
                             onChange={(event) => handleAssignTechnician(item.id, event.target.value)}
                             disabled={isBusy}
                           >
-                            <option value="">Chon</option>
+                            <option value="">Chọn</option>
                             {technicians.map((tech) => (
                               <option key={tech.id} value={tech.id}>
                                 {tech.label}
@@ -264,7 +264,7 @@ export function MaintenanceManagementPanel({
                             onClick={() => handleComplete(item.id)}
                             disabled={isBusy || !canComplete}
                           >
-                            Hoan thanh
+                            Hoàn thành
                           </Button>
                         </div>
                       </td>
@@ -277,19 +277,19 @@ export function MaintenanceManagementPanel({
         </div>
 
         <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 className="text-lg font-semibold text-slate-950">Tao phieu bao tri</h3>
-          <p className="mt-2 text-sm text-slate-500">Ghi nhan nhanh phieu bao tri, sua chua hoac nang cap.</p>
+          <h3 className="text-lg font-semibold text-slate-950">Tạo phiếu bao tri</h3>
+          <p className="mt-2 text-sm text-slate-500">Ghi nhận nhanh phiếu bảo trì, sửa chữa hoặc nâng cấp.</p>
 
           <form className="mt-6 grid gap-4" onSubmit={handleCreate}>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-700">Thiet bi</label>
+              <label className="text-sm font-medium text-slate-700">Thiết bị</label>
               <select
                 className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700"
                 value={createForm.thietBiId}
                 onChange={(event) => updateCreateField("thietBiId", event.target.value)}
                 required
               >
-                <option value="">Chon thiet bi</option>
+                <option value="">Chọn thiet bi</option>
                 {devices.map((device) => (
                   <option key={device.id} value={device.id}>
                     {device.label}
@@ -299,33 +299,33 @@ export function MaintenanceManagementPanel({
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-700">Loai bao tri</label>
+              <label className="text-sm font-medium text-slate-700">Loại bao tri</label>
               <Input
                 value={createForm.loaiBaoTri}
                 onChange={(event) => updateCreateField("loaiBaoTri", event.target.value)}
-                placeholder="Ke hoach dinh ky / Sua chua / Nang cap"
+                placeholder="Kế hoạch định kỳ / Sửa chữa / Nâng cấp"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-700">Mo ta van de</label>
+              <label className="text-sm font-medium text-slate-700">Mở ta van de</label>
               <textarea
                 className="min-h-24 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700"
                 value={createForm.moTaVanDe}
                 onChange={(event) => updateCreateField("moTaVanDe", event.target.value)}
-                placeholder="Mo ta tinh trang, trieu chung, hang muc can sua..."
+                placeholder="Mở ta tinh trang, trieu chung, hang muc can sua..."
                 required
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-700">Ky thuat vien (tuy chon)</label>
+              <label className="text-sm font-medium text-slate-700">Kỹ thuật viên (tuy chon)</label>
               <select
                 className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700"
                 value={createForm.kyThuatVienId}
                 onChange={(event) => updateCreateField("kyThuatVienId", event.target.value)}
               >
-                <option value="">Chua gan</option>
+                <option value="">Chưa gán</option>
                 {technicians.map((tech) => (
                   <option key={tech.id} value={tech.id}>
                     {tech.label}
@@ -335,7 +335,7 @@ export function MaintenanceManagementPanel({
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-700">Ngay bat dau</label>
+              <label className="text-sm font-medium text-slate-700">Ngày bắt đầu</label>
               <Input
                 type="datetime-local"
                 value={createForm.ngayBatDau}
@@ -345,7 +345,7 @@ export function MaintenanceManagementPanel({
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-700">Chi phi (VND)</label>
+              <label className="text-sm font-medium text-slate-700">Chi phí (VND)</label>
               <Input
                 type="number"
                 min={0}
@@ -357,7 +357,7 @@ export function MaintenanceManagementPanel({
             </div>
 
             <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Dang tao..." : "Tao phieu"}
+              {isSubmitting ? "Đang tạo..." : "Tạo phiếu"}
             </Button>
 
             {error ? <p className="text-sm text-rose-600">{error}</p> : null}

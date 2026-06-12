@@ -11,11 +11,11 @@ export async function GET(request: NextRequest) {
   const user = session?.user;
 
   if (!user) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
+    return Response.json({ error: "Không được xác thực" }, { status: 401 });
   }
 
   if (!allowedRoles.includes(user.role as (typeof allowedRoles)[number])) {
-    return Response.json({ error: "Forbidden" }, { status: 403 });
+    return Response.json({ error: "Không có quyền truy cập" }, { status: 403 });
   }
 
   try {
@@ -73,7 +73,7 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : "Khong the lay bao cao" },
+      { error: error instanceof Error ? error.message : "Không thể lay bao cao" },
       { status: 400 },
     );
   }

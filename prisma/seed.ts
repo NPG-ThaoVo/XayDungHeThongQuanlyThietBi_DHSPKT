@@ -1,4 +1,4 @@
-import { PrismaClient, Role, TrangThaiPhieu, TrangThaiThietBi } from "@prisma/client";
+import { PrismaClient, Role, TrangThaiPhiếu, TrangThaiThietBi } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
@@ -168,11 +168,11 @@ async function main() {
 
   const danhMucProjector = await prisma.danhMucThietBi.upsert({
     where: { maDM: "MAYCHIEU" },
-    update: { tenDM: "May chieu", moTa: "Thiet bi trinh chieu cho lop hoc va seminar" },
+    update: { tenDM: "May chieu", moTa: "Thiết bị trinh chieu cho lop hoc va seminar" },
     create: {
       maDM: "MAYCHIEU",
       tenDM: "May chieu",
-      moTa: "Thiet bi trinh chieu cho lop hoc va seminar",
+      moTa: "Thiết bị trinh chieu cho lop hoc va seminar",
     },
   });
 
@@ -452,53 +452,53 @@ async function main() {
   });
 
   await prisma.phieuMuon.upsert({
-    where: { maPhieu: "PM-001" },
+    where: { maPhiếu: "PM-001" },
     update: {
       thietBiId: thietBi1.id,
       nguoiMuonId: giangVien.id,
       mucDich: "Phuc vu giang day mon mang may tinh",
       ngayMuon: new Date("2026-04-09T08:00:00.000Z"),
       ngayTraDuKien: new Date("2026-04-12T10:00:00.000Z"),
-      trangThai: TrangThaiPhieu.CHO_DUYET,
+      trangThai: TrangThaiPhiếu.CHO_DUYET,
       ghiChu: "Cho thu kho duyet",
     },
     create: {
-      maPhieu: "PM-001",
+      maPhiếu: "PM-001",
       thietBiId: thietBi1.id,
       nguoiMuonId: giangVien.id,
       mucDich: "Phuc vu giang day mon mang may tinh",
       ngayMuon: new Date("2026-04-09T08:00:00.000Z"),
       ngayTraDuKien: new Date("2026-04-12T10:00:00.000Z"),
-      trangThai: TrangThaiPhieu.CHO_DUYET,
+      trangThai: TrangThaiPhiếu.CHO_DUYET,
       ghiChu: "Cho thu kho duyet",
     },
   });
 
   await prisma.phieuMuon.upsert({
-    where: { maPhieu: "PM-002" },
+    where: { maPhiếu: "PM-002" },
     update: {
       thietBiId: thietBi2.id,
       nguoiMuonId: sinhVien.id,
       mucDich: "Trinh bay bao cao do an mon hoc",
       ngayMuon: new Date("2026-04-07T01:00:00.000Z"),
       ngayTraDuKien: new Date("2026-04-10T10:00:00.000Z"),
-      trangThai: TrangThaiPhieu.DANG_MUON,
+      trangThai: TrangThaiPhiếu.DANG_MUON,
       ghiChu: "Da ban giao tai phong A2-204",
     },
     create: {
-      maPhieu: "PM-002",
+      maPhiếu: "PM-002",
       thietBiId: thietBi2.id,
       nguoiMuonId: sinhVien.id,
       mucDich: "Trinh bay bao cao do an mon hoc",
       ngayMuon: new Date("2026-04-07T01:00:00.000Z"),
       ngayTraDuKien: new Date("2026-04-10T10:00:00.000Z"),
-      trangThai: TrangThaiPhieu.DANG_MUON,
+      trangThai: TrangThaiPhiếu.DANG_MUON,
       ghiChu: "Da ban giao tai phong A2-204",
     },
   });
 
   await prisma.phieuMuon.upsert({
-    where: { maPhieu: "PM-003" },
+    where: { maPhiếu: "PM-003" },
     update: {
       thietBiId: thietBi3.id,
       nguoiMuonId: giangVien.id,
@@ -506,20 +506,20 @@ async function main() {
       ngayMuon: new Date("2026-04-01T01:00:00.000Z"),
       ngayTraDuKien: new Date("2026-04-05T10:00:00.000Z"),
       ngayTraThucTe: new Date("2026-04-06T08:30:00.000Z"),
-      trangThai: TrangThaiPhieu.DA_TRA,
+      trangThai: TrangThaiPhiếu.DA_TRA,
       tinhTrangTra: "HONG",
       phiQhanHan: 50000,
       ghiChu: "Tra tre 1 ngay, phat hien loi nguon",
     },
     create: {
-      maPhieu: "PM-003",
+      maPhiếu: "PM-003",
       thietBiId: thietBi3.id,
       nguoiMuonId: giangVien.id,
       mucDich: "Muon bo kit de kiem tra module router",
       ngayMuon: new Date("2026-04-01T01:00:00.000Z"),
       ngayTraDuKien: new Date("2026-04-05T10:00:00.000Z"),
       ngayTraThucTe: new Date("2026-04-06T08:30:00.000Z"),
-      trangThai: TrangThaiPhieu.DA_TRA,
+      trangThai: TrangThaiPhiếu.DA_TRA,
       tinhTrangTra: "HONG",
       phiQhanHan: 50000,
       ghiChu: "Tra tre 1 ngay, phat hien loi nguon",
@@ -579,14 +579,14 @@ async function main() {
   const dotKiemKe = await prisma.dotKiemKe.upsert({
     where: { id: "kk-fixed-001" },
     update: {
-      tenDot: "Kiem ke Quy II/2026",
+      tenDot: "Kiểm kê Quy II/2026",
       ngayBatDau: new Date("2026-04-01T00:00:00.000Z"),
       trangThai: "DANG_THUC_HIEN",
       nguoiTao: admin.name,
     },
     create: {
       id: "kk-fixed-001",
-      tenDot: "Kiem ke Quy II/2026",
+      tenDot: "Kiểm kê Quy II/2026",
       ngayBatDau: new Date("2026-04-01T00:00:00.000Z"),
       trangThai: "DANG_THUC_HIEN",
       nguoiTao: admin.name,
@@ -594,10 +594,10 @@ async function main() {
   });
 
   const kiemKeItems = [
-    { thietBi: thietBi1, trangThaiThucTe: "TOT", daXacNhan: true, ghiChu: "Dung vi tri kho" },
-    { thietBi: thietBi2, trangThaiThucTe: "BAO_TRI", daXacNhan: true, ghiChu: "Dang bao tri" },
-    { thietBi: thietBi3, trangThaiThucTe: "HONG", daXacNhan: true, ghiChu: "Cho thay nguon" },
-    { thietBi: thietBi4, trangThaiThucTe: null, daXacNhan: false, ghiChu: null },
+    { thietBi: thietBi1, trangThaiThucTe: "TOT", daXacNhãn: true, ghiChu: "Dung vi tri kho" },
+    { thietBi: thietBi2, trangThaiThucTe: "BAO_TRI", daXacNhãn: true, ghiChu: "Đang bảo trì" },
+    { thietBi: thietBi3, trangThaiThucTe: "HONG", daXacNhãn: true, ghiChu: "Cho thay nguon" },
+    { thietBi: thietBi4, trangThaiThucTe: null, daXacNhãn: false, ghiChu: null },
   ];
 
   for (const item of kiemKeItems) {
@@ -610,17 +610,17 @@ async function main() {
       },
       update: {
         trangThaiThucTe: item.trangThaiThucTe,
-        daXacNhan: item.daXacNhan,
+        daXacNhãn: item.daXacNhãn,
         ghiChu: item.ghiChu,
-        ngayXacNhan: item.daXacNhan ? new Date("2026-04-03T09:00:00.000Z") : null,
+        ngayXacNhãn: item.daXacNhãn ? new Date("2026-04-03T09:00:00.000Z") : null,
       },
       create: {
         dotKiemKeId: dotKiemKe.id,
         thietBiId: item.thietBi.id,
         trangThaiThucTe: item.trangThaiThucTe,
-        daXacNhan: item.daXacNhan,
+        daXacNhãn: item.daXacNhãn,
         ghiChu: item.ghiChu,
-        ngayXacNhan: item.daXacNhan ? new Date("2026-04-03T09:00:00.000Z") : null,
+        ngayXacNhãn: item.daXacNhãn ? new Date("2026-04-03T09:00:00.000Z") : null,
       },
     });
   }
@@ -683,11 +683,11 @@ async function main() {
     action: "REVIEW",
     entity: "DotKiemKe",
     entityId: dotKiemKe.id,
-    detail: JSON.stringify({ trangThai: "Dang thuc hien", khoa: khoaCNS.maKhoa }),
+    detail: JSON.stringify({ trangThai: "Đang thực hiện", khoa: khoaCNS.maKhoa }),
   });
 
   console.log("Seed completed successfully");
-  console.log("Tai khoan mau:");
+  console.log("Tài khoản mẫu:");
   console.log("admin@hcmute.edu.vn / Admin@123");
   console.log("truongkhoa.cns@hcmute.edu.vn / TruongKhoa@123");
   console.log("thukho@hcmute.edu.vn / ThuKho@123");

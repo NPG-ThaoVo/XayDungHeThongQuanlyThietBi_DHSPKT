@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 
+import { recordAuditLog } from "@/lib/audit";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { baoTriCreateSchema } from "@/lib/validations/bao-tri";
@@ -11,11 +12,11 @@ export async function GET(request: NextRequest) {
   const user = session?.user;
 
   if (!user) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
+    return Response.json({ error: "Không được xác thực" }, { status: 401 });
   }
 
   if (!allowedRoles.includes(user.role as (typeof allowedRoles)[number])) {
-    return Response.json({ error: "Forbidden" }, { status: 403 });
+    return Response.json({ error: "Không có quyền truy cập" }, { status: 403 });
   }
 
   try {
@@ -75,7 +76,7 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : "Khong the lay danh sach bao tri" },
+      { error: error instanceof Error ? error.message : "Không thể lay danh sach bao tri" },
       { status: 400 },
     );
   }
@@ -86,11 +87,11 @@ export async function POST(request: NextRequest) {
   const user = session?.user;
 
   if (!user) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
+    return Response.json({ error: "Không được xác thực" }, { status: 401 });
   }
 
   if (!allowedRoles.includes(user.role as (typeof allowedRoles)[number])) {
-    return Response.json({ error: "Forbidden" }, { status: 403 });
+    return Response.json({ error: "Không có quyền truy cập" }, { status: 403 });
   }
 
   try {
@@ -103,7 +104,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (!device) {
-      return Response.json({ error: "Khong tim thay thiet bi" }, { status: 404 });
+      return Response.json({ error: "Không tìm thấy thiet bi" }, { status: 404 });
     }
 
     const baoTri = await prisma.baoTri.create({
@@ -122,19 +123,17 @@ export async function POST(request: NextRequest) {
       data: { trangThai: "BAO_TRI" },
     });
 
-    await prisma.auditLog.create({
-      data: {
-        userId: user.id,
-        action: "CREATE",
-        entity: "BaoTri",
-        entityId: baoTri.id,
-      },
+    await recordAuditLog(prisma, {
+      userId: user.id,
+      action: "CREATE",
+      entity: "BaoTri",
+      entityId: baoTri.id,
     });
 
     return Response.json(baoTri, { status: 201 });
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : "Khong the tao phieu bao tri" },
+      { error: error instanceof Error ? error.message : "Không thể tao phieu bao tri" },
       { status: 400 },
     );
   }

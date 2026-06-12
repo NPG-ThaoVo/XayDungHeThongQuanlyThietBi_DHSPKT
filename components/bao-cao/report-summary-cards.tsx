@@ -26,7 +26,7 @@ export function ReportSummaryCards() {
       .then(async (response) => {
         const payload = (await response.json()) as SummaryPayload & { error?: string };
         if (!response.ok) {
-          throw new Error(payload.error ?? "Khong the lay bao cao");
+          throw new Error(payload.error ?? "Không thể lấy báo cáo");
         }
 
         if (!cancelled) {
@@ -35,7 +35,7 @@ export function ReportSummaryCards() {
       })
       .catch((fetchError) => {
         if (!cancelled) {
-          setError(fetchError instanceof Error ? fetchError.message : "Loi khong xac dinh");
+          setError(fetchError instanceof Error ? fetchError.message : "Lỗi không xác định");
         }
       })
       .finally(() => {
@@ -55,16 +55,16 @@ export function ReportSummaryCards() {
     const chiPhi = data?.chiPhi ?? 0;
 
     return [
-      { title: "Theo khoa", value: `${khoaCount} khoa dang su dung thiet bi` },
-      { title: "Theo trang thai", value: `${percentGood}% thiet bi hoat dong tot` },
-      { title: "Chi phi bao tri", value: `${formatCurrency(chiPhi)} / he thong` },
+      { title: "Theo khoa", value: `${khoaCount} khoa đang sử dụng thiết bị` },
+      { title: "Theo trạng thái", value: `${percentGood}% thiết bị hoạt động tốt` },
+      { title: "Chi phí bảo trì", value: `${formatCurrency(chiPhi)} / hệ thống` },
     ];
   }, [data]);
 
   if (loading) {
     return (
       <main className="grid gap-6 p-6 md:grid-cols-3">
-        {["Theo khoa", "Theo trang thai", "Chi phi bao tri"].map((title) => (
+        {["Theo khoa", "Theo trạng thái", "Chi phí bảo trì"].map((title) => (
           <Card key={title} className="p-6">
             <p className="text-sm uppercase tracking-[0.2em] text-slate-500">{title}</p>
             <div className="mt-4 h-6 w-3/4 rounded-lg bg-slate-100" />
@@ -78,7 +78,7 @@ export function ReportSummaryCards() {
     return (
       <main className="p-6">
         <Card className="p-6">
-          <p className="text-sm uppercase tracking-[0.2em] text-slate-500">Bao cao</p>
+          <p className="text-sm uppercase tracking-[0.2em] text-slate-500">Báo cáo</p>
           <p className="mt-4 text-sm text-rose-600">{error}</p>
         </Card>
       </main>

@@ -2,20 +2,35 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BarChart3, Boxes, ClipboardList, LayoutDashboard, LogOut, ShieldCheck, Wrench, Settings } from "lucide-react";
+import {
+  BarChart3,
+  Boxes,
+  LayoutDashboard,
+  LogOut,
+  NotebookText,
+  PackagePlus,
+  ShieldCheck,
+  Settings,
+  Trash2,
+  Wrench,
+  Workflow,
+} from "lucide-react";
 
 import { logout } from "@/app/actions/auth.actions";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { href: "/dashboard", label: "Tong quan", icon: LayoutDashboard },
-  { href: "/dashboard/thiet-bi", label: "Thiet bi", icon: Boxes },
-  { href: "/dashboard/muon-tra", label: "Muon tra", icon: ClipboardList },
-  { href: "/dashboard/bao-tri", label: "Bao tri", icon: Wrench },
-  { href: "/dashboard/kiem-ke", label: "Kiem ke", icon: ShieldCheck },
-  { href: "/dashboard/bao-cao", label: "Bao cao", icon: BarChart3 },
-  { href: "/dashboard/cai-dat", label: "Cai dat", icon: Settings },
-];
+  { href: "/dashboard", label: "Tổng quan", icon: LayoutDashboard },
+  { href: "/dashboard/thiet-bi", label: "Thiết bị", icon: Boxes },
+  { href: "/dashboard/phieu-nhap", label: "Phiếu nhập", icon: PackagePlus },
+  { href: "/dashboard/phan-bo", label: "Phân bổ", icon: Workflow },
+  { href: "/dashboard/bao-tri", label: "Bảo trì", icon: Wrench },
+  { href: "/dashboard/kiem-ke", label: "Kiểm kê", icon: ShieldCheck },
+  { href: "/dashboard/thanh-ly", label: "Thanh lý", icon: Trash2 },
+  { href: "/dashboard/nhat-ky-hoat-dong", label: "Nhật ký", icon: NotebookText },
+  { href: "/dashboard/bao-cao", label: "Báo cáo", icon: BarChart3 },
+  { href: "/dashboard/cai-dat", label: "Cài đặt", icon: Settings },
+] as const;
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -27,7 +42,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <div className="mb-8">
             <p className="text-xs font-bold uppercase tracking-widest text-teal-600">QLTHIETBI</p>
             <h1 className="mt-2 text-xl font-bold tracking-tight text-slate-900">DHSPKT Asset Hub</h1>
-            <p className="mt-2 text-sm text-slate-500">Quan ly thiet bi, kho va quy trinh muon tra.</p>
+            <p className="mt-2 text-sm text-slate-500">
+              Quản lý thiết bị, nhập kho, phân bổ, bảo trì và thanh lý.
+            </p>
           </div>
           <nav className="space-y-2">
             {navItems.map((item) => {
@@ -45,7 +62,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                       : "text-slate-600 hover:bg-slate-50 hover:text-slate-900",
                   )}
                 >
-                  <Icon className={cn("h-5 w-5 transition-colors", active ? "text-teal-600" : "text-slate-400 group-hover:text-slate-600")} />
+                  <Icon
+                    className={cn(
+                      "h-5 w-5 transition-colors",
+                      active ? "text-teal-600" : "text-slate-400 group-hover:text-slate-600",
+                    )}
+                  />
                   <span>{item.label}</span>
                 </Link>
               );
@@ -62,7 +84,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 )}
               >
                 <LogOut className="h-5 w-5 text-slate-400 transition-colors group-hover:text-rose-500" />
-                <span>Dang xuat</span>
+                <span>Đăng xuất</span>
               </button>
             </form>
           </div>

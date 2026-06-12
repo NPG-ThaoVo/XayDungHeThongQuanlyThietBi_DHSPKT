@@ -57,7 +57,7 @@ export function DeviceTable({
         };
 
         if (!response.ok) {
-          throw new Error(payload.error ?? "Khong the lay QR code");
+          throw new Error(payload.error ?? "Không thể lay QR code");
         }
 
         setQrLink(payload.link ?? "");
@@ -68,7 +68,7 @@ export function DeviceTable({
           return;
         }
 
-        setQrError(error instanceof Error ? error.message : "Khong the lay QR code");
+        setQrError(error instanceof Error ? error.message : "Không thể lay QR code");
       })
       .finally(() => {
         if (!controller.signal.aborted) {
@@ -132,26 +132,26 @@ export function DeviceTable({
   }
 
   const columns: ColumnDef<DeviceRow>[] = [
-    { accessorKey: "maThietBi", header: "Ma thiet bi" },
-    { accessorKey: "tenThietBi", header: "Ten thiet bi" },
+    { accessorKey: "maThietBi", header: "Mã thiết bị" },
+    { accessorKey: "tenThietBi", header: "Tên thiết bị" },
     {
       accessorFn: (row) => row.danhMuc.tenDM,
       id: "danhMuc",
-      header: "Danh muc",
+      header: "Danh mục",
     },
     {
       accessorKey: "trangThai",
-      header: "Trang thai",
+      header: "Trạng thái",
       cell: ({ row }) => <StatusBadge status={row.original.trangThai} />,
     },
     {
       accessorFn: (row) => row.phong?.tenPhong ?? "--",
       id: "phong",
-      header: "Vi tri",
+      header: "Vị trí",
     },
     {
       id: "actions",
-      header: "Thao tac",
+      header: "Thao tác",
       cell: ({ row }) => (
         <div className="flex gap-2">
           <Button variant="ghost" size="sm" onClick={() => onView(row.original.id)}>
@@ -220,14 +220,14 @@ export function DeviceTable({
                 <h3 className="mt-2 text-lg font-semibold text-slate-950">{qrTarget.tenThietBi}</h3>
                 <p className="mt-1 text-sm text-slate-500">{qrTarget.maThietBi}</p>
               </div>
-              <Button variant="ghost" size="sm" onClick={() => setQrTarget(null)} aria-label="Dong">
+              <Button variant="ghost" size="sm" onClick={() => setQrTarget(null)} aria-label="Dòng">
                 <X className="h-4 w-4" />
               </Button>
             </div>
 
             <div className="mt-5 flex items-center justify-center rounded-[26px] bg-slate-50 p-5">
               {isGeneratingQr ? (
-                <p className="text-sm text-slate-500">Dang tao QR...</p>
+                <p className="text-sm text-slate-500">Đang tạo mã QR...</p>
               ) : qrDataUrl ? (
                 <Image
                   src={qrDataUrl}
@@ -238,7 +238,7 @@ export function DeviceTable({
                   className="h-52 w-52 rounded-2xl bg-white p-2 shadow-sm"
                 />
               ) : (
-                <p className="text-sm text-rose-600">{qrError ?? "Khong co du lieu QR"}</p>
+                <p className="text-sm text-rose-600">{qrError ?? "Không có dữ liệu QR"}</p>
               )}
             </div>
 
@@ -254,16 +254,16 @@ export function DeviceTable({
                   onClick={handleCopyQrLink}
                   disabled={!qrLink || !canCopyLink}
                 >
-                  Copy link
+                  Sao chép liên kết
                 </Button>
                 <Button variant="secondary" size="sm" onClick={handleOpenQrLink} disabled={!qrLink}>
                   Mo
                 </Button>
                 <Button variant="secondary" size="sm" onClick={handleDownloadQr} disabled={!qrDataUrl}>
-                  Tai QR
+                  Tải QR
                 </Button>
               </div>
-              {copied ? <p className="text-xs text-emerald-600">Da copy link.</p> : null}
+              {copied ? <p className="text-xs text-emerald-600">Đã sao chép liên kết.</p> : null}
             </div>
           </div>
         </div>

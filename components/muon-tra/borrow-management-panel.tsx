@@ -123,13 +123,13 @@ export function BorrowManagementPanel({
       const payload = (await response.json()) as { error?: string };
 
       if (!response.ok) {
-        throw new Error(payload.error ?? "Khong the tao phieu muon");
+        throw new Error(payload.error ?? "Không thể tạo phiếu mượn");
       }
 
       setCreateForm(emptyCreateForm);
-      refreshPage("Da tao phieu muon moi.");
+      refreshPage("Đã tạo phiếu mượn mới.");
     } catch (submitError) {
-      setError(submitError instanceof Error ? submitError.message : "Loi khong xac dinh");
+      setError(submitError instanceof Error ? submitError.message : "Lỗi không xác định");
     } finally {
       setIsSubmitting(false);
     }
@@ -155,12 +155,12 @@ export function BorrowManagementPanel({
       const payload = (await response.json()) as { error?: string };
 
       if (!response.ok) {
-        throw new Error(payload.error ?? "Khong the cap nhat phieu muon");
+        throw new Error(payload.error ?? "Không thể cập nhật phiếu mượn");
       }
 
-      refreshPage(approved ? "Da duyet phieu muon." : "Da tu choi phieu muon.");
+      refreshPage(approved ? "Đã duyệt phiếu mượn." : "Đã từ chối phiếu mượn.");
     } catch (actionError) {
-      setError(actionError instanceof Error ? actionError.message : "Loi khong xac dinh");
+      setError(actionError instanceof Error ? actionError.message : "Lỗi không xác định");
     } finally {
       setBusyId(null);
     }
@@ -186,16 +186,16 @@ export function BorrowManagementPanel({
       const payload = (await response.json()) as { error?: string };
 
       if (!response.ok) {
-        throw new Error(payload.error ?? "Khong the xac nhan tra thiet bi");
+        throw new Error(payload.error ?? "Không thể xác nhận trả thiết bị");
       }
 
       refreshPage(
         tinhTrangTra === "HONG"
-          ? "Da xac nhan tra va danh dau thiet bi hong."
-          : "Da xac nhan tra thiet bi.",
+          ? "Đã xác nhận trả và đánh dấu thiết bị hỏng."
+          : "Đã xác nhận trả thiết bị.",
       );
     } catch (actionError) {
-      setError(actionError instanceof Error ? actionError.message : "Loi khong xac dinh");
+      setError(actionError instanceof Error ? actionError.message : "Lỗi không xác định");
     } finally {
       setBusyId(null);
     }
@@ -213,15 +213,15 @@ export function BorrowManagementPanel({
         ))}
       </section>
 
-      <div className="grid gap-6 ">
+      <div className="grid gap-6">
         <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
           <div className="flex items-center justify-between gap-4 border-b border-slate-200 px-5 py-4">
             <div>
-              <h3 className="text-lg font-semibold text-slate-950">Danh sach phieu muon</h3>
+              <h3 className="text-lg font-semibold text-slate-950">Danh sách phiếu mượn</h3>
               <p className="mt-1 text-sm text-slate-500">
                 {canManage
-                  ? `Dang theo doi ${borrowRequests.length} phieu, ${pendingCount} phieu cho duyet.`
-                  : `Ban dang co ${borrowRequests.length} phieu muon trong he thong.`}
+                  ? `Đang theo dõi ${borrowRequests.length} phiếu, ${pendingCount} phiếu chờ duyệt.`
+                  : `Bạn đang có ${borrowRequests.length} phiếu mượn trong hệ thống.`}
               </p>
             </div>
           </div>
@@ -230,12 +230,12 @@ export function BorrowManagementPanel({
             <table className="w-full text-sm">
               <thead className="bg-slate-50">
                 <tr>
-                  <th className="px-4 py-3 text-left font-medium text-slate-500">Phieu</th>
-                  <th className="px-4 py-3 text-left font-medium text-slate-500">Nguoi muon</th>
-                  <th className="px-4 py-3 text-left font-medium text-slate-500">Thiet bi</th>
-                  <th className="px-4 py-3 text-left font-medium text-slate-500">Ngay</th>
-                  <th className="px-4 py-3 text-left font-medium text-slate-500">Trang thai</th>
-                  <th className="px-4 py-3 text-left font-medium text-slate-500">Xu ly</th>
+                  <th className="px-4 py-3 text-left font-medium text-slate-500">Phiếu</th>
+                  <th className="px-4 py-3 text-left font-medium text-slate-500">Người mượn</th>
+                  <th className="px-4 py-3 text-left font-medium text-slate-500">Thiết bị</th>
+                  <th className="px-4 py-3 text-left font-medium text-slate-500">Ngày</th>
+                  <th className="px-4 py-3 text-left font-medium text-slate-500">Trạng thái</th>
+                  <th className="px-4 py-3 text-left font-medium text-slate-500">Xử lý</th>
                 </tr>
               </thead>
               <tbody>
@@ -259,23 +259,23 @@ export function BorrowManagementPanel({
                         <p className="font-medium text-slate-900">{item.thietBi.tenThietBi}</p>
                         <p className="mt-1 text-xs text-slate-500">{item.thietBi.maThietBi}</p>
                         <p className="mt-1 text-xs text-slate-500">
-                          {item.thietBi.phong?.tenPhong ?? "Chua gan phong"}
+                          {item.thietBi.phong?.tenPhong ?? "Chưa gán phòng"}
                         </p>
                       </td>
                       <td className="px-4 py-4 text-slate-600">
-                        <p>Muon: {formatDate(item.ngayMuon)}</p>
-                        <p className="mt-1">Han tra: {formatDate(item.ngayTraDuKien)}</p>
+                        <p>Mượn: {formatDate(item.ngayMuon)}</p>
+                        <p className="mt-1">Hạn trả: {formatDate(item.ngayTraDuKien)}</p>
                         <p className="mt-1">
-                          Tra thuc te: {item.ngayTraThucTe ? formatDate(item.ngayTraThucTe) : "--"}
+                          Trả thực tế: {item.ngayTraThucTe ? formatDate(item.ngayTraThucTe) : "--"}
                         </p>
                         {item.phiQhanHan ? (
-                          <p className="mt-1 text-rose-600">Phat: {formatCurrency(item.phiQhanHan)}</p>
+                          <p className="mt-1 text-rose-600">Phạt: {formatCurrency(item.phiQhanHan)}</p>
                         ) : null}
                       </td>
                       <td className="px-4 py-4">
                         <StatusBadge status={item.trangThai} />
                         {item.tinhTrangTra ? (
-                          <p className="mt-2 text-xs text-slate-500">Tinh trang tra: {item.tinhTrangTra}</p>
+                          <p className="mt-2 text-xs text-slate-500">Tình trạng trả: {item.tinhTrangTra}</p>
                         ) : null}
                       </td>
                       <td className="px-4 py-4">
@@ -287,7 +287,7 @@ export function BorrowManagementPanel({
                                 disabled={isBusy}
                                 onClick={() => void handleApprove(item.id, true)}
                               >
-                                Duyet
+                                Duyệt
                               </Button>
                               <Button
                                 size="sm"
@@ -295,7 +295,7 @@ export function BorrowManagementPanel({
                                 disabled={isBusy}
                                 onClick={() => void handleApprove(item.id, false)}
                               >
-                                Tu choi
+                                Từ chối
                               </Button>
                             </>
                           ) : null}
@@ -307,7 +307,7 @@ export function BorrowManagementPanel({
                                 disabled={isBusy}
                                 onClick={() => void handleReturn(item.id, "TOT")}
                               >
-                                Xac nhan tra
+                                Xác nhận trả
                               </Button>
                               <Button
                                 size="sm"
@@ -320,7 +320,7 @@ export function BorrowManagementPanel({
                             </>
                           ) : null}
                           {!canApprove && !canReturn ? (
-                            <span className="text-xs text-slate-400">Khong co thao tac</span>
+                            <span className="text-xs text-slate-400">Không có thao tác</span>
                           ) : null}
                         </div>
                       </td>
@@ -330,7 +330,7 @@ export function BorrowManagementPanel({
                 {borrowRequests.length === 0 ? (
                   <tr>
                     <td colSpan={6} className="px-4 py-10 text-center text-sm text-slate-500">
-                      Chua co phieu muon nao.
+                      Chưa có phiếu mượn nào.
                     </td>
                   </tr>
                 ) : null}
@@ -342,25 +342,25 @@ export function BorrowManagementPanel({
         <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <h3 className="text-lg font-semibold text-slate-950">Tao phieu muon</h3>
+              <h3 className="text-lg font-semibold text-slate-950">Tạo phiếu mượn</h3>
               <p className="mt-2 text-sm text-slate-500">
-                Gui yeu cau muon thiet bi va theo doi phe duyet ngay trong module nay.
+                Gửi yêu cầu mượn thiết bị và theo dõi phê duyệt ngay trong mô-đun này.
               </p>
             </div>
             <div className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
-              {availableDevices.length} thiet bi san sang
+              {availableDevices.length} thiết bị sẵn sàng
             </div>
           </div>
 
           <form className="mt-6 space-y-4" onSubmit={handleCreateBorrow}>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-700">Thiet bi</label>
+              <label className="text-sm font-medium text-slate-700">Thiết bị</label>
               <select
                 className="h-11 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-900"
                 value={createForm.thietBiId}
                 onChange={(event) => updateCreateField("thietBiId", event.target.value)}
               >
-                <option value="">Chon thiet bi</option>
+                <option value="">Chọn thiết bị</option>
                 {availableDevices.map((device) => (
                   <option key={device.id} value={device.id}>
                     {device.maThietBi} - {device.tenThietBi}
@@ -370,18 +370,18 @@ export function BorrowManagementPanel({
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-700">Muc dich su dung</label>
+              <label className="text-sm font-medium text-slate-700">Mục đích sử dụng</label>
               <textarea
                 className="min-h-28 w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm text-slate-900 outline-none"
                 value={createForm.mucDich}
                 onChange={(event) => updateCreateField("mucDich", event.target.value)}
-                placeholder="Nhap ly do muon, lop hoc hoac cong viec can su dung thiet bi"
+                placeholder="Nhập lý do mượn, lớp học hoặc công việc cần sử dụng thiết bị"
               />
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700">Ngay muon</label>
+                <label className="text-sm font-medium text-slate-700">Ngày mượn</label>
                 <Input
                   type="date"
                   value={createForm.ngayMuon}
@@ -389,7 +389,7 @@ export function BorrowManagementPanel({
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700">Han tra</label>
+                <label className="text-sm font-medium text-slate-700">Hạn trả</label>
                 <Input
                   type="date"
                   value={createForm.ngayTraDuKien}
@@ -402,7 +402,7 @@ export function BorrowManagementPanel({
             {success ? <p className="text-sm text-emerald-600">{success}</p> : null}
 
             <Button type="submit" disabled={isSubmitting || availableDevices.length === 0}>
-              {isSubmitting ? "Dang gui..." : "Tao phieu muon"}
+              {isSubmitting ? "Đang gửi..." : "Tạo phiếu mượn"}
             </Button>
           </form>
         </div>

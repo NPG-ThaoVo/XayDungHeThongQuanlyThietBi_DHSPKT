@@ -19,11 +19,11 @@ export async function GET(
   const user = session?.user;
 
   if (!user) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
+    return Response.json({ error: "Không được xác thực" }, { status: 401 });
   }
 
   if (!allowedRoles.includes(user.role as (typeof allowedRoles)[number])) {
-    return Response.json({ error: "Forbidden" }, { status: 403 });
+    return Response.json({ error: "Không có quyền truy cập" }, { status: 403 });
   }
 
   const { id } = await params;
@@ -35,7 +35,7 @@ export async function GET(
   });
 
   if (!device) {
-    return Response.json({ error: "Khong tim thay thiet bi" }, { status: 404 });
+    return Response.json({ error: "Không tìm thấy thiet bi" }, { status: 404 });
   }
 
   const link = buildDeviceQrLink(request, device.id);

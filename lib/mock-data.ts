@@ -1,7 +1,7 @@
 export const dashboardStats = [
   { label: "Tong thiet bi", value: "1,248", note: "+42 trong thang" },
-  { label: "Dang muon", value: "87", note: "12 phieu cho duyet" },
-  { label: "Bao tri", value: "23", note: "5 can xu ly gap" },
+  { label: "Đang mượn", value: "87", note: "12 phiếu chờ duyệt" },
+  { label: "Bảo trì", value: "23", note: "5 can xu ly gap" },
   { label: "Qua han", value: "9", note: "Can nhac han ngay" },
 ];
 
@@ -50,7 +50,7 @@ export const devices = [
 export const borrowRequests = [
   {
     id: "pm-1",
-    maPhieu: "PM-001",
+    maPhiếu: "PM-001",
     nguoiMuon: "Nguyen Van A",
     thietBi: "Laptop Dell Latitude 5440",
     ngayMuon: "2026-04-09",
@@ -59,7 +59,7 @@ export const borrowRequests = [
   },
   {
     id: "pm-2",
-    maPhieu: "PM-002",
+    maPhiếu: "PM-002",
     nguoiMuon: "Tran Thi B",
     thietBi: "May chieu Epson EB-X51",
     ngayMuon: "2026-04-08",
@@ -71,9 +71,9 @@ export const borrowRequests = [
 export const inventoryRounds = [
   {
     id: "kk-1",
-    tenDot: "Kiem ke Quy II/2026",
+    tenDot: "Kiểm kê Quy II/2026",
     trangThai: "DANG_THUC_HIEN",
-    daXacNhan: 812,
+    daXacNhãn: 812,
     tong: 1248,
   },
 ];

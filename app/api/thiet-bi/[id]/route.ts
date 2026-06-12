@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 
+import { recordAuditLog } from "@/lib/audit";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { thietBiSchema } from "@/lib/validations/thiet-bi";
@@ -12,7 +13,7 @@ export async function PATCH(
   const user = session?.user;
 
   if (!user || !["ADMIN", "THU_KHO"].includes(user.role)) {
-    return Response.json({ error: "Forbidden" }, { status: 403 });
+    return Response.json({ error: "Không có quyền truy cập" }, { status: 403 });
   }
 
   const { id } = await params;
@@ -25,7 +26,7 @@ export async function PATCH(
   });
 
   if (!existing) {
-    return Response.json({ error: "Khong tim thay thiet bi" }, { status: 404 });
+    return Response.json({ error: "Không tìm thấy thiet bi" }, { status: 404 });
   }
 
   const updated = await prisma.thietBi.update({
@@ -36,13 +37,11 @@ export async function PATCH(
     },
   });
 
-  await prisma.auditLog.create({
-    data: {
-      userId: user.id,
-      action: "UPDATE",
-      entity: "ThietBi",
-      entityId: updated.id,
-    },
+  await recordAuditLog(prisma, {
+    userId: user.id,
+    action: "UPDATE",
+    entity: "ThietBi",
+    entityId: updated.id,
   });
 
   return Response.json(updated);

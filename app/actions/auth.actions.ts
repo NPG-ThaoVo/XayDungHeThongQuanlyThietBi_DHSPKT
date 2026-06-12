@@ -1,5 +1,6 @@
 "use server";
 
+import { recordAuditLog } from "@/lib/audit";
 import { auth, signOut } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -8,12 +9,10 @@ export async function logout() {
   const user = session?.user;
 
   if (user?.id) {
-    await prisma.auditLog.create({
-      data: {
-        userId: user.id,
-        action: "LOGOUT",
-        entity: "User",
-      },
+    await recordAuditLog(prisma, {
+      userId: user.id,
+      action: "LOGOUT",
+      entity: "User",
     });
   }
 
@@ -64,12 +63,10 @@ export async function changePassword(formData: FormData) {
     data: { password: hashedNewPassword },
   });
 
-  await prisma.auditLog.create({
-    data: {
-      userId: session.user.id,
-      action: "CHANGE_PASSWORD",
-      entity: "User",
-    },
+  await recordAuditLog(prisma, {
+    userId: session.user.id,
+    action: "CHANGE_PASSWORD",
+    entity: "User",
   });
 
   return { success: "Đổi mật khẩu thành công!" };

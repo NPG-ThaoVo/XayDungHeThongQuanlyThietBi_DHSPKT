@@ -3,8 +3,6 @@ import { redirect } from "next/navigation";
 import { ArrowRight, BarChart3, Boxes, ClipboardList, ShieldCheck, Wrench } from "lucide-react";
 
 import { auth } from "@/lib/auth";
-import { cn } from "@/lib/utils";
-
 import { ZoomSection } from "@/components/landing/zoom-section";
 
 const navLinks = [

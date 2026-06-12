@@ -71,12 +71,12 @@ erDiagram
     DateTime ngayDiChuyen
   }
 
-  PhieuMuon {
+  PhiếuMuon {
     String id PK
-    String maPhieu UK
+    String maPhiếu UK
     String thietBiId FK
     String nguoiMuonId FK
-    TrangThaiPhieu trangThai
+    TrangThaiPhiếu trangThai
     DateTime ngayMuon
     DateTime ngayTraDuKien
     DateTime ngayTraThucTe
@@ -113,8 +113,8 @@ erDiagram
     String dotKiemKeId FK
     String thietBiId FK
     String trangThaiThucTe
-    Boolean daXacNhan
-    DateTime ngayXacNhan
+    Boolean daXacNhãn
+    DateTime ngayXacNhãn
   }
 
   AuditLog {
@@ -161,8 +161,8 @@ erDiagram
   DanhMucThietBi ||--o{ ThietBi : "thietBis"
   NhaCungCap ||--o{ ThietBi : "thietBis (optional)"
 
-  ThietBi ||--o{ PhieuMuon : "phieuMuon"
-  User ||--o{ PhieuMuon : "phieuMuon"
+  ThietBi ||--o{ PhiếuMuon : "phieuMuon"
+  User ||--o{ PhiếuMuon : "phieuMuon"
 
   ThietBi ||--o{ BaoTri : "baoTri"
   User ||--o{ BaoTri : "baoTriAssigned (optional)"
@@ -181,6 +181,6 @@ erDiagram
 
 ## Ghi chú
 
-- Các enum chính: `Role`, `TrangThaiThietBi`, `TrangThaiPhieu`.
+- Các enum chính: `Role`, `TrangThaiThietBi`, `TrangThaiPhiếu`.
 - `Account`, `Session`, `VerificationToken`, `Authenticator` là các bảng phục vụ Auth.js/NextAuth (Prisma Adapter).
 

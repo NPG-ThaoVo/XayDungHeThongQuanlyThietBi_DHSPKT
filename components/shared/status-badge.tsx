@@ -13,6 +13,19 @@ const statusStyles: Record<string, string> = {
   QUA_HAN: "bg-rose-100 text-rose-700",
 };
 
+const statusLabels: Record<string, string> = {
+  TOT: "Tốt",
+  HONG: "Hỏng",
+  BAO_TRI: "Bảo trì",
+  THANH_LY: "Thanh lý",
+  CHO_DUYET: "Chờ duyệt",
+  DA_DUYET: "Đã duyệt",
+  TU_CHOI: "Từ chối",
+  DANG_MUON: "Đang mượn",
+  DA_TRA: "Đã trả",
+  QUA_HAN: "Quá hạn",
+};
+
 export function StatusBadge({ status }: { status: string }) {
   return (
     <span
@@ -21,7 +34,7 @@ export function StatusBadge({ status }: { status: string }) {
         statusStyles[status] ?? "bg-slate-100 text-slate-700",
       )}
     >
-      {status.replaceAll("_", " ")}
+      {statusLabels[status] ?? status.replaceAll("_", " ")}
     </span>
   );
 }

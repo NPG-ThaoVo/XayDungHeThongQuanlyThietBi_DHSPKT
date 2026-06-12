@@ -6,8 +6,8 @@ export default function DashboardPage() {
   return (
     <>
       <Topbar
-        title="Tong quan he thong"
-        description="Theo doi tinh trang thiet bi, phieu muon va muc do san sang cua kho."
+        title="Tổng quan hệ thống"
+        description="Theo dõi tình trạng thiết bị, phiếu nghiệp vụ và mức độ sẵn sàng của kho."
       />
       <main className="space-y-6 p-6">
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -21,13 +21,13 @@ export default function DashboardPage() {
         </section>
         <section className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
           <Card className="p-6">
-            <h3 className="text-lg font-semibold text-slate-950">Trang thai trien khai</h3>
+            <h3 className="text-lg font-semibold text-slate-950">Trạng thái triển khai</h3>
             <div className="mt-6 grid gap-4">
               {[
-                "Prisma schema + seed da duoc scaffold",
-                "Auth.js credentials + middleware da duoc them",
-                "API route cho thiet bi, 2FA, cron da co san",
-                "Dashboard module cho thiet bi, muon tra, kiem ke, bao cao",
+                "Prisma schema + seed đã được scaffold",
+                "Auth.js credentials + middleware đã được thêm",
+                "API route cho thiết bị, 2FA, cron đã có sẵn",
+                "Dashboard module cho thiết bị, phiếu nhập, kiểm kê, báo cáo",
               ].map((item) => (
                 <div key={item} className="rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-700">
                   {item}
@@ -36,7 +36,7 @@ export default function DashboardPage() {
             </div>
           </Card>
           <Card className="p-6">
-            <h3 className="text-lg font-semibold text-slate-950">Bao cao nhanh</h3>
+            <h3 className="text-lg font-semibold text-slate-950">Báo cáo nhanh</h3>
             <div className="mt-6 space-y-3">
               {reports.map((item) => (
                 <div key={item.title} className="rounded-2xl border border-slate-200 p-4">

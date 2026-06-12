@@ -16,17 +16,17 @@ export default async function LoginPage() {
         <section className="bg-[linear-gradient(135deg,_#020617_0%,_#0f172a_45%,_#0369a1_100%)] p-10 text-white">
           <p className="text-sm uppercase tracking-[0.35em] text-sky-300">QLTHIETBI</p>
           <h1 className="mt-6 text-4xl font-semibold leading-tight">
-            Dang nhap de quan ly tai san, kho va quy trinh muon tra.
+            Đăng nhập để quản lý tài sản, kho và quy trình nghiệp vụ.
           </h1>
           <p className="mt-4 max-w-md text-sm leading-7 text-slate-300">
-            Tai khoan mau sau khi seed:
+            Tài khoản mẫu sau khi seed:
             <br />
             admin@hcmute.edu.vn / Admin@123
           </p>
         </section>
         <section className="p-8">
           <div className="max-w-sm">
-            <h2 className="text-2xl font-semibold text-slate-950">Dang nhap he thong</h2>
+            <h2 className="text-2xl font-semibold text-slate-950">Đăng nhập hệ thống</h2>
             <form
               className="mt-8 space-y-4"
               action={async (formData) => {
@@ -49,7 +49,7 @@ export default async function LoginPage() {
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700">Mat khau</label>
+                <label className="text-sm font-medium text-slate-700">Mật khẩu</label>
                 <input
                   name="password"
                   type="password"
@@ -57,17 +57,16 @@ export default async function LoginPage() {
                   className="h-11 w-full rounded-xl border border-slate-200 px-3"
                 />
                 <div className="flex justify-end pt-1">
-                  <Link href="/forgot-password" className="text-sm font-medium text-teal-600 hover:text-teal-700 transition-colors">
+                  <Link
+                    href="/forgot-password"
+                    className="text-sm font-medium text-teal-600 transition-colors hover:text-teal-700"
+                  >
                     Quên mật khẩu?
                   </Link>
                 </div>
               </div>
-              {/* <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700">Ma TOTP (neu co)</label>
-                <input name="totpCode" type="text" className="h-11 w-full rounded-xl border border-slate-200 px-3" />
-              </div> */}
               <button className="h-11 w-full rounded-xl bg-slate-950 font-medium text-white">
-                Dang nhap
+                Đăng nhập
               </button>
             </form>
           </div>

@@ -26,7 +26,7 @@ export function PasswordChangeForm() {
         setSuccess(response.success);
         (event.target as HTMLFormElement).reset();
       }
-    } catch (e) {
+    } catch {
       setError("Có lỗi không xác định xảy ra, vui lòng thử lại.");
     } finally {
       setIsPending(false);

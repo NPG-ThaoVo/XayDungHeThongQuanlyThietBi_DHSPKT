@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 
+import { recordAuditLog } from "@/lib/audit";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { baoTriUpdateSchema } from "@/lib/validations/bao-tri";
@@ -14,11 +15,11 @@ export async function PATCH(
   const user = session?.user;
 
   if (!user) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
+    return Response.json({ error: "Không được xác thực" }, { status: 401 });
   }
 
   if (!allowedRoles.includes(user.role as (typeof allowedRoles)[number])) {
-    return Response.json({ error: "Forbidden" }, { status: 403 });
+    return Response.json({ error: "Không có quyền truy cập" }, { status: 403 });
   }
 
   try {
@@ -32,7 +33,7 @@ export async function PATCH(
     });
 
     if (!existing) {
-      return Response.json({ error: "Khong tim thay phieu bao tri" }, { status: 404 });
+      return Response.json({ error: "Không tìm thấy phieu bao tri" }, { status: 404 });
     }
 
     const updated = await prisma.baoTri.update({
@@ -51,19 +52,17 @@ export async function PATCH(
       },
     });
 
-    await prisma.auditLog.create({
-      data: {
-        userId: user.id,
-        action: "UPDATE",
-        entity: "BaoTri",
-        entityId: updated.id,
-      },
+    await recordAuditLog(prisma, {
+      userId: user.id,
+      action: "UPDATE",
+      entity: "BaoTri",
+      entityId: updated.id,
     });
 
     return Response.json(updated);
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : "Khong the cap nhat bao tri" },
+      { error: error instanceof Error ? error.message : "Không thể cap nhat bao tri" },
       { status: 400 },
     );
   }

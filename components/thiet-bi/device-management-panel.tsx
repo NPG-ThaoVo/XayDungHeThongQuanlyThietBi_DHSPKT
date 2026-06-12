@@ -112,7 +112,7 @@ export function DeviceManagementPanel({
     [devices, selectedId],
   );
 
-  const heading = selectedDevice ? "Cap nhat thiet bi" : "Them thiet bi moi";
+  const heading = selectedDevice ? "Cập nhật thiet bi" : "Them thiet bi moi";
   const submitLabel = selectedDevice ? "Luu thay doi" : "Them thiet bi";
 
   function handleEdit(id: string) {
@@ -176,17 +176,17 @@ export function DeviceManagementPanel({
       const payload = (await response.json()) as { error?: string };
 
       if (!response.ok) {
-        throw new Error(payload.error ?? "Khong the luu thiet bi");
+        throw new Error(payload.error ?? "Không thể luu thiet bi");
       }
 
-      setSuccess(selectedDevice ? "Da cap nhat thiet bi." : "Da them thiet bi moi.");
+      setSuccess(selectedDevice ? "Đã cập nhật thiết bị." : "Đã thêm thiết bị mới.");
       if (!selectedDevice) {
         setFormValues(emptyForm);
       }
       setSelectedId(null);
       router.refresh();
     } catch (submitError) {
-      setError(submitError instanceof Error ? submitError.message : "Loi khong xac dinh");
+      setError(submitError instanceof Error ? submitError.message : "Lỗi không xác định");
     } finally {
       setIsSaving(false);
     }
@@ -206,40 +206,40 @@ export function DeviceManagementPanel({
           <div>
             <h3 className="text-lg font-semibold text-slate-950">{heading}</h3>
             <p className="mt-2 text-sm text-slate-500">
-              Tao moi hoac chinh sua thiet bi truc tiep tu module quan ly.
+              Tạo mới hoac chinh sua thiet bi truc tiep tu module quan ly.
             </p>
           </div>
           {selectedDevice ? (
             <Button variant="secondary" onClick={handleCreateNew}>
-              Tao moi
+              Tạo mới
             </Button>
           ) : null}
         </div>
 
         <form className="mt-6 grid gap-4 md:grid-cols-2" onSubmit={handleSubmit}>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-700">Ma thiet bi</label>
+            <label className="text-sm font-medium text-slate-700">Mã thiết bị</label>
             <Input
               value={formValues.maThietBi}
               onChange={(event) => updateField("maThietBi", event.target.value)}
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-700">Ten thiet bi</label>
+            <label className="text-sm font-medium text-slate-700">Tên thiết bị</label>
             <Input
               value={formValues.tenThietBi}
               onChange={(event) => updateField("tenThietBi", event.target.value)}
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-700">Serial number</label>
+            <label className="text-sm font-medium text-slate-700">Số serial</label>
             <Input
               value={formValues.serialNumber}
               onChange={(event) => updateField("serialNumber", event.target.value)}
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-700">Bao hanh den</label>
+            <label className="text-sm font-medium text-slate-700">Bảo hành đến</label>
             <Input
               type="date"
               value={formValues.baoHanhDen}
@@ -247,7 +247,7 @@ export function DeviceManagementPanel({
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-700">Nam nhap</label>
+            <label className="text-sm font-medium text-slate-700">Năm nhập</label>
             <Input
               type="number"
               value={formValues.namNhap}
@@ -255,7 +255,7 @@ export function DeviceManagementPanel({
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-700">Gia tri ban dau</label>
+            <label className="text-sm font-medium text-slate-700">Giá trị ban dau</label>
             <Input
               type="number"
               value={formValues.giaTriBanDau}
@@ -263,13 +263,13 @@ export function DeviceManagementPanel({
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-700">Danh muc</label>
+            <label className="text-sm font-medium text-slate-700">Danh mục</label>
             <select
               className="h-11 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-900 outline-none transition-all duration-200 hover:border-slate-300 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 focus:shadow-sm"
               value={formValues.danhMucId}
               onChange={(event) => updateField("danhMucId", event.target.value)}
             >
-              <option value="">Chon danh muc</option>
+              <option value="">Chọn danh muc</option>
               {danhMucs.map((item) => (
                 <option key={item.id} value={item.id}>
                   {item.label}
@@ -278,13 +278,13 @@ export function DeviceManagementPanel({
             </select>
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-700">Phong</label>
+            <label className="text-sm font-medium text-slate-700">Phòng</label>
             <select
               className="h-11 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-900 outline-none transition-all duration-200 hover:border-slate-300 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 focus:shadow-sm"
               value={formValues.phongId}
               onChange={(event) => updateField("phongId", event.target.value)}
             >
-              <option value="">Chon phong</option>
+              <option value="">Chọn phong</option>
               {phongs.map((item) => (
                 <option key={item.id} value={item.id}>
                   {item.label}
@@ -299,7 +299,7 @@ export function DeviceManagementPanel({
               value={formValues.khoaId}
               onChange={(event) => updateField("khoaId", event.target.value)}
             >
-              <option value="">Chon khoa</option>
+              <option value="">Chọn khoa</option>
               {khoas.map((item) => (
                 <option key={item.id} value={item.id}>
                   {item.label}
@@ -308,13 +308,13 @@ export function DeviceManagementPanel({
             </select>
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-700">Nha cung cap</label>
+            <label className="text-sm font-medium text-slate-700">Nhà cung cấp</label>
             <select
               className="h-11 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-900 outline-none transition-all duration-200 hover:border-slate-300 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 focus:shadow-sm"
               value={formValues.nhaCungCapId}
               onChange={(event) => updateField("nhaCungCapId", event.target.value)}
             >
-              <option value="">Chon nha cung cap</option>
+              <option value="">Chọn nha cung cap</option>
               {nhaCungCaps.map((item) => (
                 <option key={item.id} value={item.id}>
                   {item.label}
@@ -323,7 +323,7 @@ export function DeviceManagementPanel({
             </select>
           </div>
           <div className="space-y-2 md:col-span-2">
-            <label className="text-sm font-medium text-slate-700">Mo ta</label>
+            <label className="text-sm font-medium text-slate-700">Mở ta</label>
             <textarea
               className="min-h-24 w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm text-slate-900 outline-none transition-all duration-200 hover:border-slate-300 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 focus:shadow-sm"
               value={formValues.moTa}
@@ -331,7 +331,7 @@ export function DeviceManagementPanel({
             />
           </div>
           <div className="space-y-2 md:col-span-2">
-            <label className="text-sm font-medium text-slate-700">Thong so ky thuat</label>
+            <label className="text-sm font-medium text-slate-700">Thông số kỹ thuật</label>
             <textarea
               className="min-h-24 w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm text-slate-900 outline-none transition-all duration-200 hover:border-slate-300 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 focus:shadow-sm"
               value={formValues.thongSoKyThuat}
@@ -342,7 +342,7 @@ export function DeviceManagementPanel({
           {success ? <p className="md:col-span-2 text-sm text-emerald-600">{success}</p> : null}
           <div className="md:col-span-2">
             <Button type="submit" disabled={isSaving}>
-              {isSaving ? "Dang luu..." : submitLabel}
+              {isSaving ? "Đang lưu..." : submitLabel}
             </Button>
           </div>
         </form>

@@ -7,7 +7,7 @@ export function Topbar({ title, description }: { title: string; description: str
           <p className="mt-1 text-sm text-slate-500">{description}</p>
         </div>
         <div className="rounded-full bg-teal-50 px-4 py-2 text-xs font-bold uppercase tracking-widest text-teal-700 shadow-sm">
-          Hoc ky 2 • 2025-2026
+          Học kỳ 2 • 2025-2026
         </div>
       </div>
     </header>

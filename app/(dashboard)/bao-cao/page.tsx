@@ -5,8 +5,8 @@ export default async function ReportsPage() {
   return (
     <>
       <Topbar
-        title="Bao cao"
-        description="Tong hop tinh hinh su dung, trang thai va chi phi van hanh thiet bi."
+        title="Báo cáo"
+        description="Tổng hợp tình hình sử dụng, trạng thái và chi phí vận hành thiết bị."
       />
       <ReportSummaryCards />
     </>

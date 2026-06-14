@@ -7,6 +7,7 @@ import { recordAuditLog } from "@/lib/audit";
 import { prisma } from "@/lib/prisma";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  trustHost: true,
   adapter: PrismaAdapter(prisma) as never,
   session: {
     strategy: "jwt",

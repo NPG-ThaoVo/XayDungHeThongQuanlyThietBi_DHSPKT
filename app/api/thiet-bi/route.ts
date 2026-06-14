@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import QRCode from "qrcode";
 
 import { recordAuditLog } from "@/lib/audit";
+import { getAppOrigin } from "@/lib/app-url";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { thietBiSchema } from "@/lib/validations/thiet-bi";
@@ -84,9 +85,7 @@ export async function POST(request: NextRequest) {
     },
   });
 
-  const qrCode = await QRCode.toDataURL(
-    `${process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"}/dashboard/thiet-bi/${thietBi.id}`,
-  );
+  const qrCode = await QRCode.toDataURL(`${await getAppOrigin()}/dashboard/thiet-bi/${thietBi.id}`);
 
   await prisma.thietBi.update({
     where: { id: thietBi.id },

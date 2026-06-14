@@ -5,6 +5,7 @@ import QRCode from "qrcode";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { Topbar } from "@/components/layout/topbar";
 import { Card } from "@/components/ui/card";
+import { getAppOrigin } from "@/lib/app-url";
 import { prisma } from "@/lib/prisma";
 import { formatCurrency, formatDate } from "@/lib/utils";
 
@@ -43,11 +44,9 @@ export default async function DeviceDetailPage({
     notFound();
   }
 
-  const qrCodeDataUrl =
-    device.qrCode ||
-    (await QRCode.toDataURL(
-      `${process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"}/dashboard/thiet-bi/${device.id}`,
-    ));
+  const qrCodeDataUrl = await QRCode.toDataURL(
+    `${await getAppOrigin()}/dashboard/thiet-bi/${device.id}`,
+  );
 
   const warrantyLabel = device.baoHanhDen ? formatDate(device.baoHanhDen) : "Chưa có";
 

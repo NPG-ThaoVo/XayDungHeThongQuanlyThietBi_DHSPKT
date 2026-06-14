@@ -7,7 +7,7 @@ import { prisma } from "@/lib/prisma";
 const allowedRoles = ["ADMIN", "TRUONG_KHOA", "THU_KHO", "GIANG_VIEN"] as const;
 
 function buildDeviceQrLink(request: NextRequest, deviceId: string) {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? request.nextUrl.origin;
+  const baseUrl = request.nextUrl.origin;
   return `${baseUrl}/dashboard/thiet-bi/${deviceId}`;
 }
 
@@ -39,18 +39,14 @@ export async function GET(
   }
 
   const link = buildDeviceQrLink(request, device.id);
-
-  if (device.qrCode && !force) {
-    return Response.json({ link, qrCodeUrl: device.qrCode });
-  }
-
   const qrCodeUrl = await QRCode.toDataURL(link);
 
-  await prisma.thietBi.update({
-    where: { id: device.id },
-    data: { qrCode: qrCodeUrl },
-  });
+  if (force || !device.qrCode) {
+    await prisma.thietBi.update({
+      where: { id: device.id },
+      data: { qrCode: qrCodeUrl },
+    });
+  }
 
   return Response.json({ link, qrCodeUrl });
 }
-

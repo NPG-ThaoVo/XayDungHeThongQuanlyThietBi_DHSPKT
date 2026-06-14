@@ -45,7 +45,7 @@ export default async function DeviceDetailPage({
   }
 
   const qrCodeDataUrl = await QRCode.toDataURL(
-    `${await getAppOrigin()}/dashboard/thiet-bi/${device.id}`,
+    `${await getAppOrigin()}/thiet-bi/${device.id}`,
   );
 
   const warrantyLabel = device.baoHanhDen ? formatDate(device.baoHanhDen) : "Chưa có";

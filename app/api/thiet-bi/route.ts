@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
     },
   });
 
-  const qrCode = await QRCode.toDataURL(`${await getAppOrigin()}/dashboard/thiet-bi/${thietBi.id}`);
+  const qrCode = await QRCode.toDataURL(`${await getAppOrigin()}/thiet-bi/${thietBi.id}`);
 
   await prisma.thietBi.update({
     where: { id: thietBi.id },

@@ -8,7 +8,7 @@ const allowedRoles = ["ADMIN", "TRUONG_KHOA", "THU_KHO", "GIANG_VIEN"] as const;
 
 function buildDeviceQrLink(request: NextRequest, deviceId: string) {
   const baseUrl = request.nextUrl.origin;
-  return `${baseUrl}/dashboard/thiet-bi/${deviceId}`;
+  return `${baseUrl}/thiet-bi/${deviceId}`;
 }
 
 export async function GET(

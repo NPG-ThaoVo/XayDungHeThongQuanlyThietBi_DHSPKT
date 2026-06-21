@@ -72,10 +72,13 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
+    console.error("Failed to load summary report:", error);
     return Response.json(
-      { error: error instanceof Error ? error.message : "Không thể lay bao cao" },
-      { status: 400 },
+      {
+        error:
+          "Không thể tải báo cáo do cơ sở dữ liệu không phản hồi. Vui lòng thử lại sau.",
+      },
+      { status: 503 },
     );
   }
 }
-

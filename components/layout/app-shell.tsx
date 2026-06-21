@@ -14,6 +14,7 @@ import {
   ShieldCheck,
   Settings,
   Trash2,
+  Users,
   Wrench,
   Workflow,
   X,
@@ -23,19 +24,26 @@ import { logout } from "@/app/actions/auth.actions";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { href: "/dashboard", label: "Tổng quan", icon: LayoutDashboard },
-  { href: "/dashboard/thiet-bi", label: "Thiết bị", icon: Boxes },
-  { href: "/dashboard/phieu-nhap", label: "Phiếu nhập", icon: PackagePlus },
-  { href: "/dashboard/phan-bo", label: "Phân bổ", icon: Workflow },
-  { href: "/dashboard/bao-tri", label: "Bảo trì", icon: Wrench },
-  { href: "/dashboard/kiem-ke", label: "Kiểm kê", icon: ShieldCheck },
-  { href: "/dashboard/thanh-ly", label: "Thanh lý", icon: Trash2 },
-  { href: "/dashboard/nhat-ky-hoat-dong", label: "Nhật ký", icon: NotebookText },
-  { href: "/dashboard/bao-cao", label: "Báo cáo", icon: BarChart3 },
-  { href: "/dashboard/cai-dat", label: "Cài đặt", icon: Settings },
-] as const;
+  { href: "/dashboard", label: "Tổng quan", icon: LayoutDashboard, roles: null },
+  { href: "/dashboard/thiet-bi", label: "Thiết bị", icon: Boxes, roles: null },
+  { href: "/dashboard/phieu-nhap", label: "Phiếu nhập", icon: PackagePlus, roles: null },
+  { href: "/dashboard/phan-bo", label: "Phân bổ", icon: Workflow, roles: null },
+  { href: "/dashboard/bao-tri", label: "Bảo trì", icon: Wrench, roles: null },
+  { href: "/dashboard/kiem-ke", label: "Kiểm kê", icon: ShieldCheck, roles: null },
+  { href: "/dashboard/thanh-ly", label: "Thanh lý", icon: Trash2, roles: null },
+  { href: "/dashboard/nhat-ky-hoat-dong", label: "Nhật ký", icon: NotebookText, roles: null },
+  { href: "/dashboard/bao-cao", label: "Báo cáo", icon: BarChart3, roles: ["ADMIN", "TRUONG_KHOA"] },
+  { href: "/dashboard/quan-tri", label: "Quản trị", icon: Users, roles: ["ADMIN"] },
+  { href: "/dashboard/cai-dat", label: "Cài đặt", icon: Settings, roles: null },
+];
 
-export function AppShell({ children }: { children: React.ReactNode }) {
+export function AppShell({
+  children,
+  userRole,
+}: {
+  children: React.ReactNode;
+  userRole?: string;
+}) {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -78,7 +86,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             isMobileMenuOpen
               ? "translate-x-0"
               : "-translate-x-[110%] lg:translate-x-0",
-            "fixed left-4 top-4 z-30 mt-[56px] h-[calc(100dvh-32px-56px)] w-[calc(100%-32px)] lg:relative lg:h-auto lg:w-auto",
+            "fixed left-4 z-30 h-[calc(100dvh-56px)] w-[calc(100%-32px)] lg:relative lg:h-auto lg:w-auto",
           )}
         >
           <div className="mb-8">
@@ -88,13 +96,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <h1 className="mt-2 text-xl font-bold tracking-tight text-slate-900">
               DHSPKT Asset Hub
             </h1>
-            <p className="mt-2 text-sm text-slate-500">
-              Quản lý thiết bị, nhập kho, phân bổ, bảo trì và thanh lý.
-            </p>
           </div>
 
           <nav className="space-y-2">
-            {navItems.map((item) => {
+            {navItems.filter((item) => !item.roles || item.roles.includes(userRole ?? "")).map((item) => {
               const Icon = item.icon;
               const active = pathname === item.href;
 

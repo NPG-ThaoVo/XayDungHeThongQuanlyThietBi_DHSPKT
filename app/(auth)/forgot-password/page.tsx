@@ -18,14 +18,20 @@ export default function ForgotPasswordPage() {
     setIsSubmitting(true);
     setMessage(null);
 
-    window.setTimeout(() => {
-      setMessage(
-        email
-          ? `Đã ghi nhận yêu cầu khôi phục cho ${email}. Hệ thống sẽ gửi liên kết khi backend email sẵn sàng.`
-          : "Vui lòng nhập email hợp lệ.",
-      );
+    try {
+      const res = await fetch("/api/auth/reset-password/request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = (await res.json()) as { message?: string; error?: string };
+      if (!res.ok) throw new Error(data.error ?? "Lỗi gửi yêu cầu");
+      setMessage(data.message ?? "Đã gửi yêu cầu thành công. Vui lòng kiểm tra email.");
+    } catch (err) {
+      setMessage(err instanceof Error ? err.message : "Có lỗi xảy ra. Vui lòng thử lại.");
+    } finally {
       setIsSubmitting(false);
-    }, 500);
+    }
   }
 
   return (
@@ -44,8 +50,8 @@ export default function ForgotPasswordPage() {
                 Đặt lại mật khẩu an toàn
               </h1>
               <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-600">
-                Nhập email liên kết với tài khoản của bạn. Hệ thống sẽ ghi nhận yêu cầu và gửi
-                liên kết khôi phục khi backend email sẵn sàng.
+                Nhập email liên kết với tài khoản của bạn. Hệ thống sẽ gửi liên kết đặt lại mật
+                khẩu có hiệu lực trong 1 giờ.
               </p>
             </div>
 
@@ -102,7 +108,7 @@ export default function ForgotPasswordPage() {
                 <div>
                   <p className="font-medium text-slate-950">{step}</p>
                   <p className="mt-1 text-sm text-slate-500">
-                    Bước này sẽ được kết nối với backend trong giai đoạn tiếp theo.
+                    Hệ thống xử lý tự động và gửi email tức thì.
                   </p>
                 </div>
               </div>

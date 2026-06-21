@@ -1,5 +1,12 @@
-import NextAuth from "next-auth";
+import NextAuth, { CredentialsSignin } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+
+class TOTPRequired extends CredentialsSignin {
+  code = "TOTP_REQUIRED";
+}
+class InvalidTOTP extends CredentialsSignin {
+  code = "INVALID_TOTP";
+}
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcryptjs";
 
@@ -40,15 +47,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         }
 
         if (user.twoFactorEnabled && user.twoFactorSecret) {
+          const cleanToken = String(credentials.totpCode ?? "").replace(/\s/g, "");
+          if (!cleanToken) {
+            throw new TOTPRequired();
+          }
           const speakeasy = await import("speakeasy");
           const verified = speakeasy.totp.verify({
             secret: user.twoFactorSecret,
             encoding: "base32",
-            token: String(credentials.totpCode ?? ""),
+            token: cleanToken,
+            window: 10,
           });
-
           if (!verified) {
-            throw new Error("INVALID_TOTP");
+            throw new InvalidTOTP();
           }
         }
 

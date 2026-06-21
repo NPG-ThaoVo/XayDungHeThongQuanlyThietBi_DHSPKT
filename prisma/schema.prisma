@@ -32,6 +32,13 @@ enum TrangThaiPhieu {
   QUA_HAN
 }
 
+enum TrangThaiPhieuNhap {
+  CHO_DUYET
+  DA_DUYET
+  TU_CHOI
+  HOAN_TAT
+}
+
 model User {
   id               String    @id @default(cuid())
   name             String
@@ -54,6 +61,7 @@ model User {
   sessions         Session[]
   authenticators   Authenticator[]
   phieuMuon        PhieuMuon[]
+  phieuNhap        PhieuNhap[]
   auditLogs        AuditLog[]
   baoTriAssigned   BaoTri[]  @relation("TechnicianBaoTri")
 }
@@ -88,12 +96,13 @@ model DanhMucThietBi {
 }
 
 model NhaCungCap {
-  id          String    @id @default(cuid())
+  id          String      @id @default(cuid())
   tenNCC      String
   diaChi      String?
   soDienThoai String?
   email       String?
   thietBis    ThietBi[]
+  phieuNhap   PhieuNhap[]
 }
 
 model ThietBi {
@@ -120,10 +129,11 @@ model ThietBi {
   nhaCungCap     NhaCungCap?      @relation(fields: [nhaCungCapId], references: [id])
   khoa           Khoa?            @relation(fields: [khoaId], references: [id])
   phong          Phong?           @relation(fields: [phongId], references: [id])
-  phieuMuon      PhieuMuon[]
-  baoTri         BaoTri[]
-  lichSuDiChuyen LichSuDiChuyen[]
-  kiemKeItems    KiemKeItem[]
+  phieuMuon        PhieuMuon[]
+  phieuNhapChiTiet PhieuNhapChiTiet[]
+  baoTri           BaoTri[]
+  lichSuDiChuyen   LichSuDiChuyen[]
+  kiemKeItems      KiemKeItem[]
 }
 
 model LichSuDiChuyen {
@@ -199,6 +209,44 @@ model KiemKeItem {
   thietBi         ThietBi   @relation(fields: [thietBiId], references: [id])
 
   @@unique([dotKiemKeId, thietBiId])
+}
+
+model PhieuNhap {
+  id           String             @id @default(cuid())
+  maPhieu      String             @unique
+  nhaCungCapId String
+  nguoiTaoId   String
+  tongTien     Decimal            @default(0)
+  ghiChu       String?
+  trangThai    TrangThaiPhieuNhap @default(CHO_DUYET)
+  ngayNhap     DateTime           @default(now())
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+
+  nhaCungCap   NhaCungCap         @relation(fields: [nhaCungCapId], references: [id])
+  nguoiTao     User               @relation(fields: [nguoiTaoId], references: [id])
+  chiTiet      PhieuNhapChiTiet[]
+}
+
+model PhieuNhapChiTiet {
+  id          String    @id @default(cuid())
+  phieuNhapId String
+  tenThietBi  String
+  soLuong     Int       @default(1)
+  donGia      Decimal
+  thietBiId   String?
+  ghiChu      String?
+
+  phieuNhap   PhieuNhap @relation(fields: [phieuNhapId], references: [id], onDelete: Cascade)
+  thietBi     ThietBi?  @relation(fields: [thietBiId], references: [id])
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  email     String
+  token     String   @unique
+  expires   DateTime
+  createdAt DateTime @default(now())
 }
 
 model AuditLog {

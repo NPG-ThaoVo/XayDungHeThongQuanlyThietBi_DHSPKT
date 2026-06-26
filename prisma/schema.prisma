@@ -12,6 +12,7 @@ enum Role {
   TRUONG_KHOA
   GIANG_VIEN
   THU_KHO
+  KY_THUAT_VIEN
   SINH_VIEN
 }
 
@@ -19,6 +20,8 @@ enum TrangThaiThietBi {
   TOT
   HONG
   BAO_TRI
+  DA_THANH_LY
+  CHO_THANH_LY
   THANH_LY
   CHO_DUYET
 }
@@ -312,3 +315,4 @@ model Authenticator {
 
   @@id([userId, credentialID])
 }
+

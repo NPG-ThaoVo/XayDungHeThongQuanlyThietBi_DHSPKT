@@ -35,6 +35,12 @@ enum TrangThaiPhieu {
   QUA_HAN
 }
 
+enum PhuongThucThanhLy {
+  BAN
+  HUY
+  TAI_SU_DUNG
+}
+
 enum TrangThaiPhieuNhap {
   CHO_DUYET
   DA_DUYET
@@ -67,6 +73,7 @@ model User {
   phieuNhap        PhieuNhap[]
   auditLogs        AuditLog[]
   baoTriAssigned   BaoTri[]  @relation("TechnicianBaoTri")
+  thanhLyRecords   ThanhLy[]
 }
 
 model Khoa {
@@ -137,6 +144,7 @@ model ThietBi {
   baoTri           BaoTri[]
   lichSuDiChuyen   LichSuDiChuyen[]
   kiemKeItems      KiemKeItem[]
+  thanhLyRecords   ThanhLy[]
 }
 
 model LichSuDiChuyen {
@@ -187,6 +195,21 @@ model BaoTri {
 
   thietBi        ThietBi  @relation(fields: [thietBiId], references: [id])
   kyThuatVien    User?    @relation("TechnicianBaoTri", fields: [kyThuatVienId], references: [id])
+}
+
+model ThanhLy {
+  id              String             @id @default(cuid())
+  thietBiId       String
+  giaTriThuHoi    Decimal
+  phuongThuc      PhuongThucThanhLy
+  lyDo            String?
+  nguoiThucHienId String
+  ngayThanhLy     DateTime           @default(now())
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  thietBi         ThietBi            @relation(fields: [thietBiId], references: [id])
+  nguoiThucHien   User               @relation(fields: [nguoiThucHienId], references: [id])
 }
 
 model DotKiemKe {

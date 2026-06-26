@@ -9,7 +9,6 @@ import {
   createUser,
   updateUserRole,
   toggleUserStatus,
-  updateUser,
   resetUserPassword,
 } from "@/app/actions/user.actions";
 

@@ -144,6 +144,8 @@ model LichSuDiChuyen {
   thietBiId      String
   tuPhong        String?
   denPhong       String?
+  tuKhoa         String?
+  denKhoa        String?
   lyDo           String?
   nguoiThucHien  String
   ngayDiChuyen   DateTime @default(now())

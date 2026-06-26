@@ -51,7 +51,7 @@ export function PhieuNhapManagementPanel({ initialData, nhaCungCapList, userRole
   const [ghiChu, setGhiChu] = useState("");
   const [chiTiet, setChiTiet] = useState<ChiTietRow[]>([emptyRow()]);
 
-  const canWrite = userRole === "ADMIN" || userRole === "THU_KHO";
+  const canWrite = userRole === "ADMIN" || userRole === "THU_KHO" || userRole === "TRUONG_KHOA";
 
   async function handleCreate() {
     if (!nhaCungCapId) { setError("Vui lòng chọn nhà cung cấp"); return; }

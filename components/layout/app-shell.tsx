@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   BarChart3,
   Boxes,
@@ -46,11 +46,6 @@ export function AppShell({
 }) {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    // Đóng menu khi đổi trang (mobile) để tránh kẹt sidebar
-    setIsMobileMenuOpen(false);
-  }, [pathname]);
 
   return (
     <div className="fixed inset-0 h-[100dvh] w-screen overflow-auto bg-slate-50 text-slate-900">

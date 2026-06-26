@@ -6,7 +6,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { createPhieuNhapSchema } from "@/lib/validations/phieu-nhap";
 
-const allowedRoles = ["ADMIN", "THU_KHO"] as const;
+const allowedRoles = ["ADMIN", "THU_KHO", "TRUONG_KHOA"] as const;
 
 export async function GET(request: NextRequest) {
   const session = await auth();

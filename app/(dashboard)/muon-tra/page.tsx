@@ -71,7 +71,6 @@ export default async function MuonTraPage() {
             initialData={JSON.parse(JSON.stringify(phieuList))}
             thietBiList={thietBiList}
             userRole={userRole}
-            userId={userId}
           />
         </Card>
       </main>

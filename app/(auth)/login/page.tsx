@@ -95,6 +95,7 @@ export default function LoginPage() {
             <p>sinhvien@dhspkt.edu.vn</p>
             <p>gv.dien@dhspkt.edu.vn</p>
             <p>kythuatvien@dhspkt.edu.vn</p>
+            <p>truongkhoa@dhspkt.edu.vn</p>
           </div>
         </section>
 

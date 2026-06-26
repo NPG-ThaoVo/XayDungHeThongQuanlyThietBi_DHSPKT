@@ -5,19 +5,9 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { updatePhieuNhapSchema } from "@/lib/validations/phieu-nhap";
 
-const allowedRoles = ["ADMIN", "THU_KHO"] as const;
+const allowedRoles = ["ADMIN", "THU_KHO", "TRUONG_KHOA"] as const;
 
 type Params = { params: Promise<{ id: string }> };
-
-function slugifyDeviceName(name: string) {
-  return name
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .replace(/[^a-zA-Z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .toUpperCase()
-    .slice(0, 24);
-}
 
 async function completeReceipt(id: string, userId: string, danhMucId: string) {
   const phieu = await prisma.phieuNhap.findUnique({

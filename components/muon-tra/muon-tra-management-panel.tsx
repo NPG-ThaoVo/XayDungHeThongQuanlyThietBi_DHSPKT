@@ -27,7 +27,6 @@ type Props = {
   initialData: PhieuMuonItem[];
   thietBiList: ThietBiOption[];
   userRole: string;
-  userId: string;
 };
 
 const managerRoles = ["ADMIN", "THU_KHO", "TRUONG_KHOA"];
@@ -42,7 +41,7 @@ type CreateForm = {
 const today = new Date().toISOString().slice(0, 10);
 const emptyForm: CreateForm = { thietBiId: "", mucDich: "", ngayMuon: today, ngayTraDuKien: today };
 
-export function MuonTraManagementPanel({ initialData, thietBiList, userRole, userId }: Props) {
+export function MuonTraManagementPanel({ initialData, thietBiList, userRole }: Props) {
   const [data, setData] = useState<PhieuMuonItem[]>(initialData);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState<CreateForm>(emptyForm);

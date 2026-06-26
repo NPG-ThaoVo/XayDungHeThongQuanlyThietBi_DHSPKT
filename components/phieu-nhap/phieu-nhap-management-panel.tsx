@@ -297,7 +297,7 @@ export function PhieuNhapManagementPanel({ initialData, nhaCungCapList, userRole
                   <td className="px-4 py-3 text-slate-700">{item.nhaCungCap.tenNCC}</td>
                   <td className="px-4 py-3 text-slate-700">{formatCurrency(Number(item.tongTien))}</td>
                   <td className="px-4 py-3 text-slate-700">{formatDate(new Date(item.ngayNhap))}</td>
-                  <td className="px-4 py-3 text-slate-500">{item.nguoiTao.name}</td>
+                  <td className="px-4 py-3 text-slate-500">{item.nguoiTao?.name ?? "—"}</td>
                   <td className="px-4 py-3">
                     <StatusBadge status={item.trangThai} />
                   </td>

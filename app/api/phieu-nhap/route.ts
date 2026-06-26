@@ -71,7 +71,11 @@ export async function POST(request: NextRequest) {
           })),
         },
       },
-      include: { chiTiet: true, nhaCungCap: true },
+      include: {
+        chiTiet: true,
+        nhaCungCap: true,
+        nguoiTao: { select: { id: true, name: true, email: true } },
+      },
     });
 
     await recordAuditLog(prisma, {

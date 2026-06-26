@@ -90,9 +90,11 @@ export default function LoginPage() {
             Tài khoản demo sau khi seed:
           </p>
           <div className="mt-3 space-y-1 rounded-xl bg-white/10 p-4 font-mono text-xs text-slate-200">
-            <p>admin@dhspkt.edu.vn / Admin@123456</p>
-            <p>thukho@dhspkt.edu.vn / User@123456</p>
-            <p>sinhvien@dhspkt.edu.vn / User@123456</p>
+            <p>admin@dhspkt.edu.vn</p>
+            <p>thukho@dhspkt.edu.vn</p>
+            <p>sinhvien@dhspkt.edu.vn</p>
+            <p>gv.dien@dhspkt.edu.vn</p>
+            <p>kythuatvien@dhspkt.edu.vn</p>
           </div>
         </section>
 

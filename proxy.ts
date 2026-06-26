@@ -7,6 +7,7 @@ const roleRoutes: Record<string, string[]> = {
   "/dashboard/quan-tri": ["ADMIN"],
   "/dashboard/bao-cao": ["ADMIN", "TRUONG_KHOA"],
   "/dashboard/kiem-ke": ["ADMIN", "THU_KHO"],
+  "/dashboard/thanh-ly": ["ADMIN", "THU_KHO", "TRUONG_KHOA"],
   "/dashboard/thiet-bi": ["ADMIN", "TRUONG_KHOA", "THU_KHO", "GIANG_VIEN"],
   "/dashboard/muon-tra": ["ADMIN", "TRUONG_KHOA", "THU_KHO", "GIANG_VIEN", "SINH_VIEN"],
 };

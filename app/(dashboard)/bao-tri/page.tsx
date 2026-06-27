@@ -25,7 +25,7 @@ export default async function MaintenancePage() {
       orderBy: { updatedAt: "desc" },
     }),
     prisma.user.findMany({
-      where: { role: { in: ["ADMIN", "TRUONG_KHOA", "THU_KHO", "GIANG_VIEN"] } },
+      where: { role: { in: ["ADMIN", "TRUONG_KHOA", "THU_KHO", "GIANG_VIEN", "KY_THUAT_VIEN"] } },
       select: { id: true, name: true, email: true, role: true },
       orderBy: { name: "asc" },
     }),
